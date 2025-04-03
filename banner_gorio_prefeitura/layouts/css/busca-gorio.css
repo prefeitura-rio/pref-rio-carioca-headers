@@ -1,0 +1,173 @@
+@import url('root-gorio.css');
+@import url('input-gorio.css');
+#header-gorio {
+    background-color: var(--menu_bg);
+}
+#header-gorio .gorio-busca {
+    background-color: var(--pesquisa_bg);
+}
+#header-gorio .gorio-busca .logo_principal img.logo-prefeitura {
+    width: auto !important;
+    height: 52px;
+}
+#header-gorio .gorio-busca .agrupa-gorio-busca {
+    display: flex;
+    flex-direction:column;
+    justify-content:space-between;
+}
+#header-gorio .gorio-busca .agrupa-gorio-busca .content-busca-nova {
+    display: flex;
+    flex-direction:row;
+    justify-content:space-between;
+}
+#header-gorio .gorio-busca .agrupa-gorio-busca .content-busca-nova .logos {
+    display:flex;
+    align-items: center;
+    justify-content: end;
+    padding-left: 0;
+    padding-right: 0;
+}
+#header-gorio .gorio-menu {
+    display: flex;
+    flex-direction:row;
+    justify-content:space-between;
+}
+#header-gorio .gorio-menu .menu_principal {
+    display: flex;    
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0;
+}
+
+#header-gorio .gorio-menu {
+    background-color: var(--menu_bg);
+}
+
+#header-gorio .gorio-menu .menu_principal ul#menu-menu-principal {
+    padding-right: 0px;
+    padding-left: 0px;
+}
+#header-gorio .gorio-menu .menu_principal ul#menu-menu-principal li {
+    padding: 10px 20px 10px 0px;
+}
+#header-gorio .gorio-menu .menu_principal ul#menu-menu-principal li .sub-menu li {
+    padding: 10px;
+}
+#header-gorio  .menu_logos {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    padding: 0;
+}
+#header-gorio .menu_logos_mobile {
+    display: none;
+ 
+}
+#header-gorio .menu_logos .logos .logos-servicos img,
+#header-gorio .menu_logos_mobile .logos .logos-servicos img {
+    margin-right: 20px;
+    border: none!important;
+}
+#header-gorio .menu_logos .logos .logos-servicos img.logo-informacao {
+    margin-right: 0px;
+}
+#header-gorio  .menu_logos .logos .logos-servicos img.logo-sitecompativel,
+#header-gorio  .menu_logos_mobile .logos .logos-servicos img.logo-sitecompativel{
+    margin-right: 15px;
+    height: 40px;
+}
+
+@media(min-width: 1200px) {
+
+    img.logo-sitecompativel {
+        margin-left: 30px;
+    }
+}
+
+@media(max-width: 1080px) {
+    #header-gorio .gorio-busca.menu_topo {
+        display: block;
+    }
+    #header-gorio .gorio-busca .agrupa-gorio-busca .content-busca-nova {
+        gap: 15px;
+    }
+    #header-gorio .gorio-busca .agrupa-gorio-busca .content-busca-nova .busca-nova {
+        height: 50px;
+        margin: auto;
+        width: 100%;
+        padding: 0;
+    }
+    #header-gorio .gorio-busca .agrupa-gorio-busca .content-busca-nova .logo {
+        width: initial;
+    }
+    #header-gorio .gorio-busca .agrupa-gorio-busca .content-busca-nova .logo_principal {
+        width: auto;
+        padding-left: 0px;
+    }
+    #header-gorio .gorio-menu  {
+        flex-direction:column;       
+    }
+    #header-gorio .gorio-menu .menu_principal {
+        order:2;
+        width: 100%;
+    }
+    #header-gorio .gorio-menu .menu_principal .menu-menu-principal-container {
+        width: 100%;
+    }
+    #header-gorio .gorio-menu .menu_principal ul#menu-menu-principal li {
+        padding: 10px;
+    }
+    #header-gorio .gorio-menu .menu_logos {        
+        justify-content: start;
+        width: 100%;
+        display: none;
+    }
+    img.logo-1746, img.logo-carioca {
+        display: none;
+    }
+
+    #header-gorio .gorio-menu .menu_logos_mobile {
+        display: flex;
+        align-items: center;
+        padding: 0;
+    }
+    #header-gorio img.midias-sociais {
+        height: 32px;
+    }
+
+}
+@media(max-width: 991px) {
+    #header-gorio .gorio-busca .agrupa-gorio-busca .content-busca-nova {
+        gap: 15px;
+        height: 82px;
+    }
+    #header-gorio .gorio-busca .agrupa-gorio-busca .content-busca-nova .logos {
+        width: 40%;
+    }
+}
+@media(max-width: 767px) {
+    #header-gorio .gorio-busca .agrupa-gorio-busca .content-busca-nova .logos {
+        width: 82%;
+    }
+}
+@media(max-width: 575px) {
+    #header-gorio .gorio-busca .agrupa-gorio-busca .content-busca-nova .logos {
+        width: 40%;
+    }
+}
+@media(max-width: 480px) {
+    #header-gorio .gorio-busca .agrupa-gorio-busca .content-busca-nova .logos {
+        width: 45%;
+        display: none;
+    }
+    #header-gorio .gorio-busca .agrupa-gorio-busca .content-busca-nova .logo_principal {
+        padding-left: 15px;
+    }
+}
+
+@media only screen and (min-width: 415px) and (max-width: 480px) {
+    .logos-servicos img {
+        padding-right: 5px;
+        
+    }
+}

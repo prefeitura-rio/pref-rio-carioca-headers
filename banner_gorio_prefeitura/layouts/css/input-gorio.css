@@ -1,0 +1,134 @@
+.search-input-container {
+  display: flex;
+  align-items: center;
+  background-color: #ffffff52;
+  /* Example background color */
+  border-radius: 20px;
+  /* Example rounded corners */
+  padding: 5px 10px;
+  /* Example padding */
+}
+
+.search-input {
+  border: none;
+  background: transparent;
+  padding: 8px;
+  font-size: 16px;
+  color: #FFF;
+  /* Example text color */
+  outline: none;
+  flex-grow: 1;
+  /* Allows the input to take up available space */
+}
+
+.search-input::placeholder {
+  color: #FFF;
+  /* Example placeholder color */
+}
+
+.search-button {
+  background: transparent;
+  border: none;
+  padding: 8px;
+  outline: none;
+}
+
+.search-button svg {
+  width: 24px;
+  height: 24px;
+  fill: #FFF;
+  /* Example icon color */
+}
+
+#resultado {
+  width: 94%;
+  height: 378px;
+  border: 1px solid #E4E4E4;
+  border-radius: 12px;
+  background-color: #FFF;
+  display: none;
+  position: absolute;
+  margin-top: 7px;
+  z-index: 999;
+  overflow-x: auto;
+  padding: 36px;
+  color: #000000;
+}
+
+#resultado .resultadoItem {
+  border-bottom: 1px solid #17171754;
+  padding: 20px 0;
+}
+
+#resultado .resultadoItem:nth-of-type(1) {
+  padding-top: 0;
+}
+
+#resultado .resultadoItem:last-of-type {
+  border: 0;
+  padding-bottom: 0;
+}
+
+#resultado .resultadoItem .resultadoTitulo {
+  color: #000;
+}
+
+#resultado .resultadoItem span {
+  color: #17171754;
+}
+
+#resultado .resultadoItem span span {
+  color: #008FBE;
+  font-weight: 600;
+}
+
+#resultado .resultadoItem span.destaque {
+  background-color: #ededed;
+  color: #acacac;
+  padding: 2px 8px;
+  border-radius: 100px;
+  margin-left: 8px;
+}
+
+#resultado .resultadoTitulo a {
+  color: #000;
+}
+
+#resultado .resultadoTitulo a:hover {
+  color: #008FBE;
+}
+
+#resultado svg {
+  width: 24px;
+  height: 24px;
+  fill: #17171754;
+  /* Example icon color */
+}
+
+#resultado svg:hover {
+  fill: #008FBE;
+  /* Example icon color */
+}
+
+#btn-busca-resultado .btn-info {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.resultadoItem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.textoitem {
+  flex-grow: 1;
+  padding-right: 10px;
+}
+
+.btnitem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+}
