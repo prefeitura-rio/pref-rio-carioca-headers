@@ -19,7 +19,8 @@ jQuery(document).ready(function () {
           jQuery("#btn-busca-resultado").empty();
           jQuery("#btn-busca-resultadoMobile").empty();
 
-          var apiUrl = 'https://carioca-digital-hom2.apps.ocp.rio.gov.br/proxy/proxy.php'; // Substitua pela URL real da sua API
+          var apiUrl = 'https://busca.dados.rio/search/multi'; // Substitua pela URL real da sua API
+          var seuToken = 'YitGrH9ETxCMWpDivMkaFcGsYephpPs2E8VaPGVq67GcuLVMCXtSjX7qWjMtYEg4'; // Substitua pelo seu token real
           var nomeColecao = 'carioca-digital,1746,pref-rio';
 
           // Obtém token reCAPTCHA antes de fazer a chamada AJAX
@@ -30,23 +31,21 @@ jQuery(document).ready(function () {
                 method: 'GET',
                 data: {
                   q: textoParaConsultar,
-                  cs: nomeColecao,
-                  recaptcha_token: token 
+                  cs: nomeColecao
                 },
                 dataType: 'json',
+                headers: {
+                  'Authorization': 'Bearer ' + seuToken,
+                  'X-Recaptcha-Token': token // Adiciona o token como header
+                },
                 success: function (data) {
-                  // Esta função é executada quando a chamada à API é bem-sucedida
-                  //console.log("Resposta da API:", data);
-                  // Aqui você pode processar os dados recebidos da API e exibir os resultados
                   const resultados = data.result;
                   const container = jQuery("#resultadoMobile .flex-grow-1.d-flex.flex-column");
                   const botaoResultado = jQuery("#btn-busca-resultadoMobile");
 
-                  // Antes de iniciar o loop, limpe o conteúdo do container
                   container.empty();
 
                   $.each(resultados, function (index, item) {
-                    // ** montar o breadcrumb */
                     let itensbreadcrumb = [];
                     for (const [chave, valor] of Object.entries(item.category)) {
                       itensbreadcrumb.push(valor);
@@ -62,7 +61,6 @@ jQuery(document).ready(function () {
                       destaque = "prefeitura";
                     }
 
-                    // **Adiciona esta condição para verificar se item.tipo diferente de noticia**
                     if (item.tipo !== 'noticia') {
                       const novaDiv = $('<div>').addClass('resultadoItem d-flex flex-row').html(`
                       <div class="col-10 p-0 ">
@@ -88,8 +86,8 @@ jQuery(document).ready(function () {
                       container.append(novaDiv);
                     }
                   });
-                  // Adiciona o botão SOMENTE se não houver nenhum filho em botaoResultado
-                  if (botaoResultado.is(':empty') && resultados.length > 0) { // Adiciona verificação se há resultados
+
+                  if (botaoResultado.is(':empty') && resultados.length > 0) {
                     var botao = $('<div>').html(`
                     <div class="d-flex justify-content-end align-items-baseline">
                     <div class="w-100">
@@ -99,7 +97,7 @@ jQuery(document).ready(function () {
                     `);
                     botaoResultado.append(botao);
                   } else if (resultados.length === 0) {
-                    jQuery("#btn-busca-resultado").empty();  // Remove o botão se não houver resultados
+                    jQuery("#btn-busca-resultado").empty();
                   }
                 },
                 error: function (error) {
@@ -116,7 +114,6 @@ jQuery(document).ready(function () {
           });
         } else {
           jQuery("#resultadoMobile").hide();
-          // Garante que o container do botão também esteja vazio quando o texto tem menos de 3 caracteres
           jQuery("#btn-busca-resultado").empty();
         }
       });
@@ -133,7 +130,8 @@ jQuery(document).ready(function () {
           // Garante que o container do botão esteja vazio antes da nova busca
           jQuery("#btn-busca-resultado").empty();
 
-          var apiUrl = 'https://carioca-digital-hom2.apps.ocp.rio.gov.br/proxy/proxy.php';
+          var apiUrl = 'https://busca.dados.rio/search/multi';
+          var seuToken = 'YitGrH9ETxCMWpDivMkaFcGsYephpPs2E8VaPGVq67GcuLVMCXtSjX7qWjMtYEg4';
           var nomeColecao = 'carioca-digital,1746,pref-rio';
 
           // Obtém token reCAPTCHA antes de fazer a chamada AJAX
@@ -144,23 +142,21 @@ jQuery(document).ready(function () {
                 method: 'GET',
                 data: {
                   q: textoParaConsultar,
-                  cs: nomeColecao,
-                  recaptcha_token: token
+                  cs: nomeColecao
                 },
                 dataType: 'json',
+                headers: {
+                  'Authorization': 'Bearer ' + seuToken,
+                  'X-Recaptcha-Token': token // Adiciona o token como header
+                },
                 success: function (data) {
-                  // Esta função é executada quando a chamada à API é bem-sucedida
-                  //console.log("Resposta da API:", data);
-                  // Aqui você pode processar os dados recebidos da API e exibir os resultados
                   resultados = data.result;
                   container = jQuery("#resultado .flex-grow-1.d-flex.flex-column");
                   botaoResultado = jQuery("#btn-busca-resultado");
 
-                  // Antes de iniciar o loop, limpe o conteúdo do container
                   container.empty();
 
                   $.each(resultados, function (index, item) {
-                    // ** montar o breadcrumb */
                     let itensbreadcrumb = [];
                     for (const [chave, valor] of Object.entries(item.category)) {
                       itensbreadcrumb.push(valor);
@@ -176,7 +172,6 @@ jQuery(document).ready(function () {
                       destaque = "prefeitura";
                     }
 
-                    // **Adiciona esta condição para verificar se item.tipo diferente de noticia**
                     if (item.tipo !== 'noticia') {
                       const novaDiv = $('<div>').addClass('resultadoItem d-flex flex-row').html(`
                       <div class="col-10 p-0 ">
@@ -203,8 +198,7 @@ jQuery(document).ready(function () {
                     }
                   });
 
-                  // Adiciona o botão SOMENTE se não houver nenhum filho em botaoResultado
-                  if (botaoResultado.is(':empty') && resultados.length > 0) { // Adiciona verificação se há resultados
+                  if (botaoResultado.is(':empty') && resultados.length > 0) {
                     var botao = $('<div>').html(`
                     <div class="d-flex justify-content-end align-items-baseline">
                     <div class="w-100">
@@ -232,7 +226,6 @@ jQuery(document).ready(function () {
           });
         } else {
           jQuery("#resultado").hide();
-          // Garante que o container do botão também esteja vazio quando o texto tem menos de 3 caracteres
           jQuery("#btn-busca-resultado").empty();
           jQuery("#btn-busca-resultadoMobile").empty();
         }
