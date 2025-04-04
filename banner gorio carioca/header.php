@@ -32,6 +32,7 @@ $container = get_theme_mod('understrap_container_type');
 	<link rel="profile" href="http://gmpg.org/xfn/11">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
 		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<script src="https://www.google.com/recaptcha/api.js?render=6Le9BwgrAAAAAFsZHFHdv-JWZApR-x-9ZOVnnetv"></script>
 	<link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/css/print.css" media="print">
 	<link rel="stylesheet" type="text/css" href="<?php bloginfo("template_url"); ?>/css/busca-gorio.css">
 	<link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/fonts/stylesheet.css">
