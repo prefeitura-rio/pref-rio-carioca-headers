@@ -32,6 +32,7 @@
     <?php wp_head(); ?>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-15986150-1"></script>
+    <script src="https://www.google.com/recaptcha/api.js?render=6Le9BwgrAAAAAFsZHFHdv-JWZApR-x-9ZOVnnetv"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
