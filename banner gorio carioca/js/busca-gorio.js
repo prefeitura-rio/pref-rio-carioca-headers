@@ -19,7 +19,7 @@ jQuery(document).ready(function () {
           jQuery("#btn-busca-resultado").empty();
           jQuery("#btn-busca-resultadoMobile").empty();
 
-          var apiUrl = 'https://staging.busca.dados.rio/search/multi'; // Substitua pela URL real da sua API
+          var apiUrl = 'https://carioca-digital-hom2.apps.ocp.rio.gov.br/proxy/proxy.php'; // Substitua pela URL real da sua API
           var nomeColecao = 'carioca-digital,1746,pref-rio';
 
           // Obtém token reCAPTCHA antes de fazer a chamada AJAX
@@ -133,7 +133,7 @@ jQuery(document).ready(function () {
           // Garante que o container do botão esteja vazio antes da nova busca
           jQuery("#btn-busca-resultado").empty();
 
-          var apiUrl = 'https://staging.busca.dados.rio/search/multi';
+          var apiUrl = 'https://carioca-digital-hom2.apps.ocp.rio.gov.br/proxy/proxy.php';
           var nomeColecao = 'carioca-digital,1746,pref-rio';
 
           // Obtém token reCAPTCHA antes de fazer a chamada AJAX
