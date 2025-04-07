@@ -4,6 +4,101 @@ jQuery(document).ready(function () {
     console.warn('reCAPTCHA não carregado');
   }
 
+  // Generate or retrieve session ID
+  function getSessionId() {
+    const cookieName = "session_id";
+    const existingSessionId = document.cookie.split('; ').find(row => row.startsWith(cookieName + "="));
+    if (existingSessionId) {
+      return existingSessionId.split('=')[1];
+    }
+    const newSessionId = crypto.randomUUID();
+    document.cookie = `${cookieName}=${newSessionId}; path=/; max-age=${30 * 24 * 60 * 60}`;
+    return newSessionId;
+  }
+
+  const sessionId = getSessionId();
+  const portalOrigem = "Carioca Digital";
+  const tipoDispositivo = window.innerWidth <= 480 ? "Mobile" : "Desktop";
+
+  // Send metrics for "clique"
+  function sendCliqueMetrics(query, posicao, objetoClicado) {
+    grecaptcha.ready(function () {
+      grecaptcha.execute('6Le9BwgrAAAAAFsZHFHdv-JWZApR-x-9ZOVnnetv', { action: 'metrics' }).then(function (token) {
+        $.ajax({
+          url: '/metrics/clique',
+          method: 'POST',
+          contentType: 'application/json',
+          headers: {
+            'X-Recaptcha-Token': token
+          },
+          data: JSON.stringify({
+            session_id: sessionId,
+            query: query,
+            portal_origem: portalOrigem,
+            tipo_dispositivo: tipoDispositivo,
+            noticias_toggled: false,
+            posicao: posicao,
+            objeto_clicado: objetoClicado
+          }),
+          error: function (error) {
+            console.error("Erro ao enviar métricas de clique:", error);
+          }
+        });
+      }).catch(function (error) {
+        console.error("Erro no reCAPTCHA para métricas de clique:", error);
+      });
+    });
+  }
+
+  // Send metrics for "busca"
+  function sendBuscaMetrics(query) {
+    grecaptcha.ready(function () {
+      grecaptcha.execute('6Le9BwgrAAAAAFsZHFHdv-JWZApR-x-9ZOVnnetv', { action: 'metrics' }).then(function (token) {
+        $.ajax({
+          url: '/metrics/busca',
+          method: 'POST',
+          contentType: 'application/json',
+          headers: {
+            'X-Recaptcha-Token': token
+          },
+          data: JSON.stringify({
+            session_id: sessionId,
+            query: query,
+            portal_origem: portalOrigem,
+            tipo_dispositivo: tipoDispositivo
+          }),
+          error: function (error) {
+            console.error("Erro ao enviar métricas de busca:", error);
+          }
+        });
+      }).catch(function (error) {
+        console.error("Erro no reCAPTCHA para métricas de busca:", error);
+      });
+    });
+  }
+
+  // Attach click event to result items
+  $(document).on('click', '.resultadoItem a', function (e) {
+    const query = $('#search-input').val() || $('#search-input-mobile').val();
+    const posicao = $(this).closest('.resultadoItem').index();
+    const objetoClicado = $(this).data('item'); // Ensure the item object is stored in the element
+    sendCliqueMetrics(query, posicao, objetoClicado);
+  });
+
+  // Attach click event to search buttons
+  $('.search-button, #btn-busca-resultado button, #btn-busca-resultadoMobile button').on('click', function (e) {
+    const query = $('#search-input').val() || $('#search-input-mobile').val();
+    sendBuscaMetrics(query);
+  });
+
+  // Attach enter key event to search inputs
+  $('#search-input, #search-input-mobile').on('keypress', function (e) {
+    if (e.which === 13) {
+      const query = $(this).val();
+      sendBuscaMetrics(query);
+    }
+  });
+
   // Function to display the formatted "tipo"
   function displayTipo(tipo) {
     switch (tipo) {
@@ -117,7 +212,7 @@ jQuery(document).ready(function () {
                 error: function (error) {
                   console.error("Erro na chamada à API:", error);
                   if (error.status === 403) {
-                    jQuery("#resultadoMobile .flex-grow-1.d-flex.flex-column").html('<div class="error-message">Verificação de segurança falhou. Por favor, tente novamente.</div>');
+                    jQuery("#resultadoMobile .flex-grow-1.d-flex.flex-column").html('<div class="error-message">Oops! Parece que algo saiu do esperado. Tente novamente em alguns instantes.</div>');
                   }
                 }
               });
@@ -229,13 +324,13 @@ jQuery(document).ready(function () {
                 error: function (error) {
                   console.error("Erro na chamada à API:", error);
                   if (error.status === 403) {
-                    jQuery("#resultado .flex-grow-1.d-flex.flex-column").html('<div class="error-message">Verificação de segurança falhou. Por favor, tente novamente.</div>');
+                    jQuery("#resultado .flex-grow-1.d-flex.flex-column").html('<div class="error-message">Oops! Parece que algo saiu do esperado. Tente novamente em alguns instantes.</div>');
                   }
                 }
               });
             }).catch(function (error) {
               console.error("Erro no reCAPTCHA:", error);
-              jQuery("#resultado .flex-grow-1.d-flex.flex-column").html('<div class="error-message">Erro na verificação de segurança. Recarregue a página.</div>');
+              jQuery("#resultado .flex-grow-1.d-flex.flex-column").html('<div class="error-message">Oops! Parece que algo saiu do esperado. Tente novamente em alguns instantes.</div>');
             });
           });
         } else {
