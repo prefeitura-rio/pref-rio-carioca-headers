@@ -4,6 +4,20 @@ jQuery(document).ready(function () {
     console.warn('reCAPTCHA não carregado');
   }
 
+  // Function to display the formatted "tipo"
+  function displayTipo(tipo) {
+    switch (tipo) {
+      case "noticia":
+        return "Notícia";
+      case "informacao":
+        return "Informação";
+      case "servico":
+        return "Serviço";
+      default:
+        return tipo || ""; // Return an empty string if tipo is undefined
+    }
+  }
+
   function verificarLarguraTela() {
     if (window.innerWidth <= 480) {
       jQuery("#search-input-mobile").keyup(function () {
@@ -19,7 +33,7 @@ jQuery(document).ready(function () {
           jQuery("#btn-busca-resultado").empty();
           jQuery("#btn-busca-resultadoMobile").empty();
 
-          var apiUrl = 'https://busca.dados.rio/search/multi'; // Substitua pela URL real da sua API
+          var apiUrl = 'https://staging.busca.dados.rio/search/multi'; // Substitua pela URL real da sua API
           // var seuToken = 'YitGrH9ETxCMWpDivMkaFcGsYephpPs2E8VaPGVq67GcuLVMCXtSjX7qWjMtYEg4'; // Substitua pelo seu token real
           var nomeColecao = 'carioca-digital,1746,pref-rio';
 
@@ -54,11 +68,11 @@ jQuery(document).ready(function () {
 
                     let destaque;
                     if (item.collection === 'carioca-digital') {
-                      destaque = "carioca";
+                      destaque = "carioca digital";
                     } else if (item.collection === '1746') {
                       destaque = "1746";
                     } else if (item.collection === 'pref-rio') {
-                      destaque = "prefeitura";
+                      destaque = "prefeitura rio";
                     }
 
                     if (item.tipo !== 'noticia') {
@@ -69,7 +83,7 @@ jQuery(document).ready(function () {
                           </div>
                           <div class="col-12 p-0">
                               <span>
-                                  <span>${item.tipo}</span> >
+                                  <span>${displayTipo(item.tipo)}</span> >
                                   ${breadcrumb}
                                 </span>
                               <span class="destaque">${destaque}</span>
@@ -130,7 +144,7 @@ jQuery(document).ready(function () {
           // Garante que o container do botão esteja vazio antes da nova busca
           jQuery("#btn-busca-resultado").empty();
 
-          var apiUrl = 'https://busca.dados.rio/search/multi';
+          var apiUrl = 'https://staging.busca.dados.rio/search/multi';
           // var seuToken = 'YitGrH9ETxCMWpDivMkaFcGsYephpPs2E8VaPGVq67GcuLVMCXtSjX7qWjMtYEg4';
           var nomeColecao = 'carioca-digital,1746,pref-rio';
 
@@ -165,11 +179,11 @@ jQuery(document).ready(function () {
 
                     let destaque;
                     if (item.collection === 'carioca-digital') {
-                      destaque = "carioca";
+                      destaque = "carioca digital";
                     } else if (item.collection === '1746') {
                       destaque = "1746";
                     } else if (item.collection === 'pref-rio') {
-                      destaque = "prefeitura";
+                      destaque = "prefeitura rio";
                     }
 
                     if (item.tipo !== 'noticia') {
@@ -180,7 +194,7 @@ jQuery(document).ready(function () {
                           </div>
                           <div class="col-12 p-0">
                               <span>
-                                  <span>${item.tipo}</span> >
+                                  <span>${displayTipo(item.tipo)}</span> >
                                   ${breadcrumb}
                                 </span>
                               <span class="destaque">${destaque}</span>

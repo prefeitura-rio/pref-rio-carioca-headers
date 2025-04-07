@@ -10,7 +10,19 @@ jQuery(document).ready(function () {
       var textoParaConsultar = textoDigitado;
       jQuery("#resultado").show();
 
-
+      // Function to display the formatted "tipo"
+      function displayTipo(tipo) {
+        switch (tipo) {
+          case "noticia":
+            return "Notícia";
+          case "informacao":
+            return "Informação";
+          case "servico":
+            return "Serviço";
+          default:
+            return tipo || ""; // Return an empty string if tipo is undefined
+        }
+      }
 
       //ANCHOR - ESCONDER A LOGO QUANDO ABRE A BUSCA
       function verificarLarguraTela() {
@@ -81,11 +93,11 @@ jQuery(document).ready(function () {
 
                 let destaque;
                 if (item.collection === 'carioca-digital') {
-                  destaque = "carioca";
+                  destaque = "carioca digital";
                 } else if (item.collection === '1746') {
                   destaque = "1746";
                 } else if (item.collection === 'pref-rio') {
-                  destaque = "prefeitura";
+                  destaque = "prefeitura rio";
                 }
 
                 // **Adiciona esta condição para verificar se item.tipo diferente de noticia**
@@ -97,7 +109,7 @@ jQuery(document).ready(function () {
                       </div>
                       <div class="col-12 p-0">
                           <span>
-                              <span>${item.tipo}</span> >
+                              <span>${displayTipo(item.tipo)}</span> >
                               ${breadcrumb}
                             </span>
                           <span class="destaque">${destaque}</span>
