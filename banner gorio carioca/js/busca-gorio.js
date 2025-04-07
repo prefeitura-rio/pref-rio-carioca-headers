@@ -20,7 +20,7 @@ jQuery(document).ready(function () {
           jQuery("#btn-busca-resultadoMobile").empty();
 
           var apiUrl = 'https://busca.dados.rio/search/multi'; // Substitua pela URL real da sua API
-          var seuToken = 'YitGrH9ETxCMWpDivMkaFcGsYephpPs2E8VaPGVq67GcuLVMCXtSjX7qWjMtYEg4'; // Substitua pelo seu token real
+          // var seuToken = 'YitGrH9ETxCMWpDivMkaFcGsYephpPs2E8VaPGVq67GcuLVMCXtSjX7qWjMtYEg4'; // Substitua pelo seu token real
           var nomeColecao = 'carioca-digital,1746,pref-rio';
 
           // Obtém token reCAPTCHA antes de fazer a chamada AJAX
@@ -35,7 +35,7 @@ jQuery(document).ready(function () {
                 },
                 dataType: 'json',
                 headers: {
-                  'Authorization': 'Bearer ' + seuToken,
+                  // 'Authorization': 'Bearer ' + seuToken,
                   'X-Recaptcha-Token': token // Adiciona o token como header
                 },
                 success: function (data) {
@@ -131,7 +131,7 @@ jQuery(document).ready(function () {
           jQuery("#btn-busca-resultado").empty();
 
           var apiUrl = 'https://busca.dados.rio/search/multi';
-          var seuToken = 'YitGrH9ETxCMWpDivMkaFcGsYephpPs2E8VaPGVq67GcuLVMCXtSjX7qWjMtYEg4';
+          // var seuToken = 'YitGrH9ETxCMWpDivMkaFcGsYephpPs2E8VaPGVq67GcuLVMCXtSjX7qWjMtYEg4';
           var nomeColecao = 'carioca-digital,1746,pref-rio';
 
           // Obtém token reCAPTCHA antes de fazer a chamada AJAX
@@ -146,7 +146,7 @@ jQuery(document).ready(function () {
                 },
                 dataType: 'json',
                 headers: {
-                  'Authorization': 'Bearer ' + seuToken,
+                  // 'Authorization': 'Bearer ' + seuToken,
                   'X-Recaptcha-Token': token // Adiciona o token como header
                 },
                 success: function (data) {
