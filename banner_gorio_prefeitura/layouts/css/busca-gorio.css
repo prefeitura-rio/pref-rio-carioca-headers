@@ -35,7 +35,7 @@
 #header-gorio .gorio-menu .menu_principal {
     display: flex;    
     align-items: center;
-    justify-content: flex-start;
+    justify-content: flex-end;
     padding: 0;
 }
 
@@ -75,6 +75,9 @@
 #header-gorio  .menu_logos_mobile .logos .logos-servicos img.logo-sitecompativel{
     margin-right: 15px;
     height: 40px;
+}
+a.resultadoItem.d-flex.flex-row {
+    display: block;
 }
 
 @media(min-width: 1200px) {
@@ -155,13 +158,84 @@
         width: 40%;
     }
 }
+@media(min-width: 481px){
+    #search-mobile{
+        display: none;
+    }
+    #header-gorio .lupasearch,
+    #header-gorio .closesearch{
+        display: none;
+    }       
+}
 @media(max-width: 480px) {
+    button.btn-link {
+        display: block;
+        position: absolute;
+        left: 83%;
+        top: 20px;
+        outline: none;
+        line-height: 0;
+    }
     #header-gorio .gorio-busca .agrupa-gorio-busca .content-busca-nova .logos {
         width: 45%;
         display: none;
     }
     #header-gorio .gorio-busca .agrupa-gorio-busca .content-busca-nova .logo_principal {
         padding-left: 15px;
+    }
+    #header-gorio .gorio-busca .agrupa-gorio-busca .content-busca-nova .busca-nova{
+        display: none;
+    }
+    #header-gorio .gorio-busca .agrupa-gorio-busca .content-busca-nova .lupasearch
+    #header-gorio .gorio-busca .agrupa-gorio-busca .content-busca-nova .closesearch{
+        width: 100%;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: end;
+        margin-right: 25px;
+    }
+    #header-gorio .gorio-busca .agrupa-gorio-busca .content-busca-nova .closesearch{
+        display: none;
+    }
+    #header-gorio .gorio-busca .agrupa-gorio-busca .content-busca-nova .lupa,
+    #header-gorio .gorio-busca .agrupa-gorio-busca .content-busca-nova .btnclose {
+        height: 40px;
+        width: 40px;
+        margin-top: 22px;
+        margin-left: 90px;
+    }
+    #search-mobile {
+        display: none;
+        background-color: var(--menu_bg);
+        height: 80px;
+        position: relative;
+        margin-top: -80px;
+        padding: 14px 30px;
+    }
+
+    #search-mobile.ativo {
+        display: block;
+        /* Ou outro valor apropriado */
+    }
+
+    .closesearch,
+    .closesearch.desativado {
+        display: none;
+    }
+
+    .closesearch.ativo {
+        display: flex!important;
+    }
+
+    .lupasearch.desativado {
+        display: none !important;
+    }
+
+    #header-gorio .closesearch .btnclose {
+        height: 40px;
+        margin-left: -10px;
+        cursor: pointer;
     }
 }
 

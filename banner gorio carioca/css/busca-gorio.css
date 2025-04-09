@@ -8,26 +8,30 @@ nav.navbar.navbar-expand-md.navbar-dark {
 
 #header-gorio {
     background-color: var(--pesquisa_bg);
-    
+
 }
-#header-gorio .gorio-busca .logo_principal img.logo-prefeitura {  
+
+#header-gorio .gorio-busca .logo_principal img.logo-prefeitura {
     width: auto !important;
     height: 52px;
     margin-right: 45px
 }
+
 #header-gorio .gorio-busca .agrupa-gorio-busca {
     display: flex;
-    flex-direction:row;
-    justify-content:space-between;
+    flex-direction: row;
+    justify-content: space-between;
     padding: 10px 0;
 }
+
 #header-gorio .gorio-busca .agrupa-gorio-busca .content-busca-nova {
     display: flex;
-    flex-direction:row;
-    justify-content:space-between;
+    flex-direction: row;
+    justify-content: space-between;
 }
+
 #header-gorio .gorio-busca .agrupa-gorio-busca .content-busca-nova .logos {
-    display:flex;
+    display: flex;
     align-items: center;
     justify-content: end;
     padding-left: 0;
@@ -37,23 +41,28 @@ nav.navbar.navbar-expand-md.navbar-dark {
 #header-gorio .gorio-busca .agrupa-gorio-busca .logos .logos-social-media img.midias-sociais {
     height: 45px;
 }
+
 #header-gorio .gorio-busca .agrupa-gorio-busca .logos .logos-social-media img.midias-sociais.login {
     margin-left: 10px;
 }
+
 #header-gorio .gorio-busca .agrupa-gorio-busca .lupasearch img.midias-sociais.lupa {
     height: 40px;
 }
-#menu-gorio{
+
+#menu-gorio {
     background-color: var(--menu_bg);
     padding: 10px 0;
 }
+
 #menu-gorio .gorio-menu {
     display: flex;
-    flex-direction:row;
-    justify-content:space-between;
+    flex-direction: row;
+    justify-content: space-between;
 }
+
 #menu-gorio .gorio-menu .menu_principal {
-    display: flex;    
+    display: flex;
     align-items: center;
     justify-content: flex-start;
     padding: 0;
@@ -75,76 +84,93 @@ nav.navbar.navbar-expand-md.navbar-dark {
     margin-right: 20px;
     height: 40px;
 }
+
 #menu-gorio .gorio-menu .menu_logos .logos .logos-servicos img.logo-informacao {
     margin-right: 20px;
 }
 
-#header-gorio .lupasearch{
+#header-gorio .lupasearch,
+#header-gorio .closesearch {
     display: none;
- }
+}
 
-#Acessibilidade.HeaderAcessibilidade{
+#Acessibilidade.HeaderAcessibilidade {
     float: left;
     background-color: red;
     position: absolute;
     bottom: 0;
 }
+
 @media(max-width: 1080px) {
     #header-gorio .gorio-busca.menu_topo {
         display: block;
     }
+
     #header-gorio .gorio-busca .agrupa-gorio-busca .content-busca-nova {
         gap: 15px;
     }
+
     #header-gorio .gorio-busca .agrupa-gorio-busca .content-busca-nova .busca-nova {
         height: 50px;
         margin: auto;
         width: 100%;
     }
+
     #header-gorio .gorio-busca .agrupa-gorio-busca .content-busca-nova .logo {
         width: initial;
     }
+
     #header-gorio .gorio-busca .agrupa-gorio-busca .content-busca-nova .logo_principal {
         width: auto;
         padding-left: 0px;
     }
-    #header-gorio .gorio-menu  {
-        flex-direction:column;       
+
+    #header-gorio .gorio-menu {
+        flex-direction: column;
     }
+
     #header-gorio .gorio-menu .menu_principal {
-        order:2;
+        order: 2;
         width: 100%;
     }
+
     #header-gorio .gorio-menu .menu_principal .menu-menu-principal-container {
         width: 100%;
     }
+
     #header-gorio .gorio-menu .menu_principal ul#menu-menu-principal li {
         padding: 10px;
     }
-    #header-gorio .gorio-menu .menu_logos {        
+
+    #header-gorio .gorio-menu .menu_logos {
         justify-content: start;
         width: 100%;
         display: none;
     }
 }
+
 @media(max-width: 991px) {
     #header-gorio .gorio-busca .agrupa-gorio-busca .content-busca-nova {
         gap: 15px;
     }
+
     #header-gorio .gorio-busca .agrupa-gorio-busca .content-busca-nova .logos {
         width: 40%;
     }
 }
+
 @media(max-width: 767px) {
     #header-gorio .gorio-busca .agrupa-gorio-busca .content-busca-nova .logos {
         width: 82%;
     }
 }
+
 @media(max-width: 575px) {
     #header-gorio .gorio-busca .agrupa-gorio-busca .content-busca-nova .logos {
         width: 40%;
     }
 }
+
 @media(max-width: 480px) {
     #header-gorio .gorio-busca .logo_principal {
         padding: 0;
@@ -153,46 +179,78 @@ nav.navbar.navbar-expand-md.navbar-dark {
         gap: 10px;
 
     }
+
     .col-9.col-md-3.col-lg-4.logo {
         padding: 10px;
     }
 
-    #header-gorio .gorio-busca .logo_principal img.logo-prefeitura {    
+    #header-gorio .gorio-busca .logo_principal img.logo-prefeitura {
         margin-right: 0;
         height: 45px;
     }
-    #header-gorio .busca-nova{
+
+    #header-gorio .busca-nova {
         display: none;
     }
+
     #menu-gorio .gorio-menu .menu_logos .logos .logos-servicos img {
         margin-right: 0;
         height: 30px;
     }
+
     #menu-gorio .gorio-menu .menu_logos .logos .logos-servicos img.logo-1746 {
         display: none;
     }
+
     #menu-gorio .gorio-menu .menu_logos .logos .logos-servicos img.logo-lgpd {
         /*display: none;*/
     }
+
     #header-gorio .col-3.logos {
-        display:none;
-     }
-     #header-gorio .lupasearch{
+        display: none;
+    }
+
+    #header-gorio .lupasearch {
         display: block;
         margin-left: -10px;
         cursor: pointer;
-     }
-     #search-mobile{
+    }
+
+    #search-mobile {
         display: none;
         background-color: var(--menu_bg);
         height: 65px;
         position: relative;
         margin-top: -50px;
         padding: 5px 30px;
-     }
+    }
+
     #search-mobile.ativo {
         display: block;
         /* Ou outro valor apropriado */
     }
-    
+
+    .closesearch,
+    .closesearch.desativado {
+        display: none;
+    }
+
+    .closesearch.ativo {
+        display: flex;
+    }
+
+    .lupasearch.desativado {
+        display: none !important;
+    }
+
+    #header-gorio .closesearch {
+        display: block;
+    }
+
+    #header-gorio .closesearch .btnclose {
+        height: 40px;
+        margin-left: -10px;
+        cursor: pointer;
+    }
+
 }

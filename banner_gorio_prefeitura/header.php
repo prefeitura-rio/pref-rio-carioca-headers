@@ -72,25 +72,46 @@
                             </div>
                             <div id="resultado">
                                 <div class="flex-grow-1 d-flex flex-column"></div>
-                                <div id="btn-busca-resultado" class="mt-5"></div>
+
                             </div>
+                            <div id="btn-busca-resultado" class="mt-5"></div>
 
                         </form>
                     </div>
                     <div class="col-md-4 col-lg-2 logos">
                         <div class="logos-social-media">
+                            <a href="https://www.instagram.com/prefeitura_rio" target="blank"><img
+                                    class="midias-sociais"
+                                    src="<?php bloginfo("template_url"); ?>/layouts/images/header/logo-instagram-gorio.png"></a>
                             <a href="https://twitter.com/Prefeitura_Rio" target="blank"><img class="midias-sociais"
                                     src="<?php bloginfo("template_url"); ?>/layouts/images/header/logo-twitter-gorio.png"></a>
                             <a href="https://www.facebook.com/PrefeituradoRio" target="blank"><img
                                     class="midias-sociais"
                                     src="<?php bloginfo("template_url"); ?>/layouts/images/header/logo-facebook-gorio.png"></a>
-                            <a href="https://www.instagram.com/prefeitura_rio" target="blank"><img
-                                    class="midias-sociais"
-                                    src="<?php bloginfo("template_url"); ?>/layouts/images/header/logo-instagram-gorio.png"></a>
                             <a href="https://www.youtube.com/channel/UCBf3rlo_iHd4kRePPhFXDUQ" target="blank"><img
                                     class="midias-sociais"
                                     src="<?php bloginfo("template_url"); ?>/layouts/images/header/logo-youtube-gorio.png"></a>
                         </div>
+                    </div>
+                    <div class="col-4 lupasearch">
+                        <img class="midias-sociais lupa"
+                            src="<?php bloginfo("template_url"); ?>/layouts/images/header/lupa-mobile.png">
+                    </div>
+                    <div class="col-4 closesearch">
+                        <img class="midias-sociais btnclose"
+                            src="<?php bloginfo("template_url"); ?>/layouts/images/header/close-mobile.png">
+                    </div>
+                    <div id="menu-hamburguer">
+                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                            data-target="#bd-docs-nav" aria-controls="bd-docs-nav" aria-expanded="false"
+                            aria-label="Toggle docs navigation">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" width="30" height="30"
+                                focusable="false">
+                                <title>Menu</title>
+                                <path style="color: white" stroke="currentColor" stroke-width="4" stroke-linecap="round"
+                                    stroke-miterlimit="10" d="M4 7h22M4 15h22M4 23h22"></path>
+                            </svg>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -109,42 +130,64 @@
                         ?>
                     </nav>
 
-                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
-                        data-target="#bd-docs-nav" aria-controls="bd-docs-nav" aria-expanded="false"
-                        aria-label="Toggle docs navigation">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" width="30" height="30"
-                            focusable="false">
-                            <title>Menu</title>
-                            <path style="color: white" stroke="currentColor" stroke-width="4" stroke-linecap="round"
-                                stroke-miterlimit="10" d="M4 7h22M4 15h22M4 23h22"></path>
+
+                </div>
+                <div class="col-md-12 menu_logos">
+
+                    <div class="logos">
+                        <div class="logos-servicos">
+                            <a href="#" target="blank"><img class="logo-sitecompativel"
+                                    src="<?php bloginfo("template_url"); ?>/layouts/images/header/compativel.png"></a>
+                            <a href="http://prefeitura.rio/#inline_content" target="blank"><img class="logo-carioca"
+                                    src="<?php bloginfo("template_url"); ?>/layouts/images/header/logo-carioca.png"></a>
+                            <a href="https://www.1746.rio/" target="blank"><img class="logo-1746"
+                                    src="<?php bloginfo("template_url"); ?>/layouts/images/header/logo-1746.png"></a>
+                            <a href="https://lgpd.prefeitura.rio/" target="blank"><img class="logo-lgpd"
+                                    src="<?php bloginfo("template_url"); ?>/layouts/images/header/lgpd.png"></a>
+                            <a href="https://transparencia.prefeitura.rio/" target="blank"><img class="logo-informacao"
+                                    src="<?php bloginfo("template_url"); ?>/layouts/images/header/acesso-a-informacao-v2.png"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 menu_logos_mobile">
+
+                    <div class="logos">
+                        <div class="logos-servicos">
+                            <a href="#" target="blank"><img class="logo-sitecompativel"
+                                    src="<?php bloginfo("template_url"); ?>/layouts/images/header/compativel.png"></a>
+                            <a href="http://prefeitura.rio/#inline_content" target="blank"><img class="logo-carioca"
+                                    src="<?php bloginfo("template_url"); ?>/layouts/images/header/logo-carioca.png"></a>
+                            <a href="https://www.1746.rio/" target="blank"><img class="logo-1746"
+                                    src="<?php bloginfo("template_url"); ?>/layouts/images/header/logo-1746.png"></a>
+                            <a href="https://lgpd.prefeitura.rio/" target="blank"><img class="logo-lgpd"
+                                    src="<?php bloginfo("template_url"); ?>/layouts/images/header/lgpd.png"></a>
+                            <a href="https://transparencia.prefeitura.rio/" target="blank"><img class="logo-informacao"
+                                    src="<?php bloginfo("template_url"); ?>/layouts/images/header/acesso-a-informacao-v2.png"></a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div id="search-mobile" style="col-12">
+            <form action="https://buscador.dados.rio/search-result" method="get">
+                <div class="search-input-container">
+                    <input type="text" name="q" placeholder="Do que você precisa?" class="search-input"
+                        id="search-input-mobile" required>
+                    <button type="submit" class="search-button">
+                        <svg viewBox="0 0 24 24">
+                            <path
+                                d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 5-1.5 1.5-5-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
                         </svg>
                     </button>
                 </div>
-                <div class="col-md-12 menu_logos">
-               
-                <div class="logos">
-                    <div class="logos-servicos">
-					<a href="#" target="blank"><img class="logo-sitecompativel" src="<?php bloginfo("template_url"); ?>/layouts/images/header/compativel.png"></a>
-					<a href="http://prefeitura.rio/#inline_content" target="blank"><img class="logo-carioca" src="<?php bloginfo("template_url"); ?>/layouts/images/header/logo-carioca.png"></a>
-                    <a href="https://www.1746.rio/" target="blank"><img class="logo-1746" src="<?php bloginfo("template_url"); ?>/layouts/images/header/logo-1746.png"></a>
-                    <a href="https://lgpd.prefeitura.rio/" target="blank"><img class="logo-lgpd" src="<?php bloginfo("template_url"); ?>/layouts/images/header/lgpd.png"></a>
-                    <a href="https://transparencia.prefeitura.rio/" target="blank"><img class="logo-informacao" src="<?php bloginfo("template_url"); ?>/layouts/images/header/acesso-a-informacao-v2.png"></a>
-                    </div>
+                <div id="resultadoMobile">
+                    <div class="flex-grow-1 d-flex flex-column"></div>
                 </div>
-            </div>
-            <div class="col-md-12 menu_logos_mobile">
-               
-                <div class="logos">
-                    <div class="logos-servicos">
-					<a href="#" target="blank"><img class="logo-sitecompativel" src="<?php bloginfo("template_url"); ?>/layouts/images/header/compativel.png"></a>
-					<a href="http://prefeitura.rio/#inline_content" target="blank"><img class="logo-carioca" src="<?php bloginfo("template_url"); ?>/layouts/images/header/logo-carioca.png"></a>
-                    <a href="https://www.1746.rio/" target="blank"><img class="logo-1746" src="<?php bloginfo("template_url"); ?>/layouts/images/header/logo-1746.png"></a>
-                    <a href="https://lgpd.prefeitura.rio/" target="blank"><img class="logo-lgpd" src="<?php bloginfo("template_url"); ?>/layouts/images/header/lgpd.png"></a>
-                    <a href="https://transparencia.prefeitura.rio/" target="blank"><img class="logo-informacao" src="<?php bloginfo("template_url"); ?>/layouts/images/header/acesso-a-informacao-v2.png"></a>
-                    </div>
-                </div>
-            </div>
-            </div>
+                <div id="btn-busca-resultadoMobile" class="mt-5"></div>
+            </form>
         </div>
+
     </div>
     </div>

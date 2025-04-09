@@ -4,7 +4,7 @@
 
     $(document).ready(function () {
 		
-        console.log("JS rodandoo!! FAT!");
+        //console.log("JS rodandoo!! FAT!");
 
         const aumentaFonte = $('.aumentar-fonte a');
         const diminuiFonte = $('.diminuir-fonte a');

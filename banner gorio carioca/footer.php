@@ -50,15 +50,23 @@ $container = get_theme_mod('understrap_container_type');
 <script src="<?php bloginfo('template_url'); ?>/js/acessibilidade.js"></script>
 <script>
 	document.addEventListener('DOMContentLoaded', function () {
-					const lupasearchElement = document.querySelector('.lupa');
-					const searchMobileDiv = document.getElementById('search-mobile');
+		const lupasearchElement = document.querySelector('.lupasearch');
+		const closesearchElement = document.querySelector('.closesearch');
+		const searchMobileDiv = document.getElementById('search-mobile');
 
-					if (lupasearchElement && searchMobileDiv) {
-						lupasearchElement.addEventListener('click', function () {
-							searchMobileDiv.classList.toggle('ativo');
-						});
-					}
-				});
+		if (lupasearchElement && searchMobileDiv) {
+			lupasearchElement.addEventListener('click', function () {
+				searchMobileDiv.classList.toggle('ativo');
+				lupasearchElement.classList.toggle('desativado')
+				closesearchElement.classList.toggle('ativo')
+			});
+		}
+		closesearchElement.addEventListener('click', function () {
+			searchMobileDiv.classList.toggle('ativo');
+			lupasearchElement.classList.toggle('desativado')
+			closesearchElement.classList.toggle('ativo')
+		});
+	});
 </script>
 </body>
 
