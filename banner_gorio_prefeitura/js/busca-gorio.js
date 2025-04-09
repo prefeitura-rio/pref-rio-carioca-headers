@@ -1,17 +1,66 @@
-  jQuery(document).ready(function () {
+jQuery(document).ready(function () {
     // Verifica se reCAPTCHA está carregado
     if (typeof grecaptcha === 'undefined') {
       console.warn('reCAPTCHA não carregado');
     }
 
+    // Estilo do Skeleton Loader
+    if (!document.getElementById('skeleton-style')) {
+        const style = `
+            <style id="skeleton-style">
+                .skeleton-box {
+                    height: 30px;
+                    width: 100%;
+                    background: linear-gradient(90deg, #eee 25%, #ddd 37%, #eee 63%);
+                    background-size: 400% 100%;
+                    animation: shimmer 1.2s infinite;
+                    border-radius: 4px;
+                    margin-bottom: 8px;
+                }
+
+                @keyframes shimmer {
+                    0% { background-position: -400px 0; }
+                    100% { background-position: 400px 0; }
+                }
+            </style>
+        `;
+        $('head').append(style);
+    }
+
+    // Função para mostrar Skeleton
+    function mostrarSkeleton(resultContainer, count = 5) {
+        const container = jQuery(resultContainer + " .flex-grow-1.d-flex.flex-column");
+        container.empty();
+        for (let i = 0; i < count; i++) {
+            container.append('<div class="skeleton-box"></div>');
+        }
+        jQuery(resultContainer).show();
+    }
+
+    // Função para remover Skeleton
+    function removerSkeleton(resultContainer) {
+        const container = jQuery(resultContainer + " .flex-grow-1.d-flex.flex-column");
+        container.find('.skeleton-box').remove();
+    }
+
+    // Função debounce para atrasar a execução
+    function debounce(func, delay) {
+        let timer;
+        return function (...args) {
+            clearTimeout(timer);
+            timer = setTimeout(() => func.apply(this, args), delay);
+        };
+    }
+
     function verificarLarguraTela() {
       if (window.innerWidth <= 480) {
-        jQuery("#search-input-mobile").keyup(function () {
+        jQuery("#search-input-mobile").keyup(debounce(function () {
           var textoDigitado = jQuery(this).val();
           if (textoDigitado.length >= 3) {
             var textoParaConsultar = textoDigitado;
 
-            //MOSTRAR LOADING
+            // Mostrar Skeleton Loader
+            mostrarSkeleton("#resultadoMobile");
 
             // Zera a área de resultados antes de cada nova consulta
             jQuery("#resultadoMobile .flex-grow-1.d-flex.flex-column").empty();
@@ -21,7 +70,6 @@
             jQuery("#btn-busca-resultadoMobile").empty();
 
             var apiUrl = 'https://prefeiturariohom.rio.gov.br/proxy/proxy.php'; // Substitua pela URL real da sua API
-            //var seuToken = 'YitGrH9ETxCMWpDivMkaFcGsYephpPs2E8VaPGVq67GcuLVMCXtSjX7qWjMtYEg4'; // Substitua pelo seu token real
             var nomeColecao = 'carioca-digital,1746,pref-rio';
 
             // Obtém token reCAPTCHA antes de fazer a chamada AJAX
@@ -38,11 +86,8 @@
                     recaptcha_token: token // Adiciona o token como parâmetro
                   },
                   dataType: 'json',
-                  //headers: {
-                  //  'Authorization': 'Bearer ' + seuToken,
-                  // 'X-Recaptcha-Token': token // Adiciona o token como header
-                  //},
                   success: function (data) {
+                    removerSkeleton("#resultadoMobile");
                     const resultados = data.result;
                     const container = jQuery("#resultadoMobile .flex-grow-1.d-flex.flex-column");
                     const botaoResultado = jQuery("#btn-busca-resultadoMobile");
@@ -100,28 +145,31 @@
                     jQuery("#resultado").show();
                   },
                   error: function (error) {
+                    removerSkeleton("#resultadoMobile");
                     console.error("Erro na chamada à API:", error);
-                    if (error.status === 403) {
-                      jQuery("#resultadoMobile .flex-grow-1.d-flex.flex-column").html('<div class="error-message">Verificação de segurança falhou. Por favor, tente novamente.</div>');
-                    }
+                    jQuery("#resultadoMobile .flex-grow-1.d-flex.flex-column").html('<div class="error-message">Algo de errado ocorreu. Por favor, recarregue a página.</div>');
                   }
                 });
               }).catch(function (error) {
+                removerSkeleton("#resultadoMobile");
                 console.error("Erro no reCAPTCHA:", error);
-                jQuery("#resultadoMobile .flex-grow-1.d-flex.flex-column").html('<div class="error-message">Erro na verificação de segurança. Recarregue a página.</div>');
+                jQuery("#resultadoMobile .flex-grow-1.d-flex.flex-column").html('<div class="error-message">Algo de errado ocorreu. Por favor, recarregue a página.</div>');
               });
             });
           } else {
             jQuery("#resultadoMobile").hide();
             jQuery("#btn-busca-resultado").empty();
           }
-        });
+        }, 500)); // Debounce de 500ms
       } else {
-        jQuery("#search-input").keyup(function () {
+        jQuery("#search-input").keyup(debounce(function () {
           var textoDigitado = jQuery(this).val();
           if (textoDigitado.length >= 3) {
             var textoParaConsultar = textoDigitado;
             jQuery("#resultadoMobile").hide();
+
+            // Mostrar Skeleton Loader
+            mostrarSkeleton("#resultado");
 
             // Zera a área de resultados antes de cada nova consulta
             jQuery("#resultado .flex-grow-1.d-flex.flex-column").empty();
@@ -130,7 +178,6 @@
             jQuery("#btn-busca-resultado").empty();
 
             var apiUrl = 'https://prefeiturariohom.rio.gov.br/proxy/proxy.php'; // Substitua pela URL real da sua API
-            //var seuToken = 'YitGrH9ETxCMWpDivMkaFcGsYephpPs2E8VaPGVq67GcuLVMCXtSjX7qWjMtYEg4';
             var nomeColecao = 'carioca-digital,1746,pref-rio';
 
             // Obtém token reCAPTCHA antes de fazer a chamada AJAX
@@ -147,11 +194,8 @@
                     recaptcha_token: token // Adiciona o token como parâmetro
                   },
                   dataType: 'json',
-                  //headers: {
-                  //  'Authorization': 'Bearer ' + seuToken,
-                  //  'X-Recaptcha-Token': token // Adiciona o token como header
-                  //},
                   success: function (data) {
+                    removerSkeleton("#resultado");
                     resultados = data.result;
                     container = jQuery("#resultado .flex-grow-1.d-flex.flex-column");
                     botaoResultado = jQuery("#btn-busca-resultado");
@@ -209,15 +253,15 @@
                     jQuery("#resultado").show();
                   },
                   error: function (error) {
+                    removerSkeleton("#resultado");
                     console.error("Erro na chamada à API:", error);
-                    if (error.status === 403) {
-                      jQuery("#resultado .flex-grow-1.d-flex.flex-column").html('<div class="error-message">Verificação de segurança falhou. Por favor, tente novamente.</div>');
-                    }
+                    jQuery("#resultado .flex-grow-1.d-flex.flex-column").html('<div class="error-message">Algo de errado ocorreu. Por favor, recarregue a página.</div>');
                   }
                 });
               }).catch(function (error) {
+                removerSkeleton("#resultado");
                 console.error("Erro no reCAPTCHA:", error);
-                jQuery("#resultado .flex-grow-1.d-flex.flex-column").html('<div class="error-message">Erro na verificação de segurança. Recarregue a página.</div>');
+                jQuery("#resultado .flex-grow-1.d-flex.flex-column").html('<div class="error-message">Algo de errado ocorreu. Por favor, recarregue a página.</div>');
               });
             });
           } else {
@@ -225,7 +269,7 @@
             jQuery("#btn-busca-resultado").empty();
             jQuery("#btn-busca-resultadoMobile").empty();
           }
-        });
+        }, 500)); // Debounce de 500ms
       }
     }
 
