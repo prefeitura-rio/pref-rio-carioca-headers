@@ -4,6 +4,15 @@ jQuery(document).ready(function () {
     console.warn('reCAPTCHA não carregado');
   }
 
+  // Função debounce
+  function debounce(func, delay) {
+    let timeout;
+    return function (...args) {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func.apply(this, args), delay);
+    };
+  }
+
   // Função para lidar com a busca
   function handleSearch(inputElement, resultContainer, buttonContainer) {
     var textoDigitado = jQuery(inputElement).val();
@@ -44,50 +53,49 @@ jQuery(document).ready(function () {
 
               container.empty();
 
-  
-                    $.each(resultados, function (index, item) {
-                      let itensbreadcrumb = [];
-                      for (const [chave, valor] of Object.entries(item.category)) {
-                        itensbreadcrumb.push(valor);
-                      }
-                      const breadcrumb = itensbreadcrumb.join(" > ");
-  
-                      let destaque;
-                      if (item.collection === 'carioca-digital') {
-                        destaque = "carioca";
-                      } else if (item.collection === '1746') {
-                        destaque = "1746";
-                      } else if (item.collection === 'pref-rio') {
-                        destaque = "prefeitura";
-                      }
-  
-                      if (item.tipo !== 'noticia') {
-                        const novaDiv = $('<a>').addClass('resultadoItem d-flex flex-row').attr('href', item.url).html(`
-                          <div class="col-12 p-0 ">
-                            <div class="col-12 p-0 resultadoTitulo">
-                              <a href="${item.url}">${item.titulo}</a>
-                            </div>
-                            <div class="col-12 p-0">
-                              <span>
-                                <span>${item.tipo}</span> >
-                                ${breadcrumb}
-                              </span>
-                              <span class="destaque">${destaque}</span>
-                            </div>
-                          </div>
-                        `);
-                        container.append(novaDiv);
-                      }
-                    });
-  
+              $.each(resultados, function (index, item) {
+                let itensbreadcrumb = [];
+                for (const [chave, valor] of Object.entries(item.category)) {
+                  itensbreadcrumb.push(valor);
+                }
+                const breadcrumb = itensbreadcrumb.join(" > ");
+
+                let destaque;
+                if (item.collection === 'carioca-digital') {
+                  destaque = "carioca";
+                } else if (item.collection === '1746') {
+                  destaque = "1746";
+                } else if (item.collection === 'pref-rio') {
+                  destaque = "prefeitura";
+                }
+
+                if (item.tipo !== 'noticia') {
+                  const novaDiv = $('<a>').addClass('resultadoItem d-flex flex-row').attr('href', item.url).html(`
+                    <div class="col-12 p-0 ">
+                      <div class="col-12 p-0 resultadoTitulo">
+                        <a href="${item.url}">${item.titulo}</a>
+                      </div>
+                      <div class="col-12 p-0">
+                        <span>
+                          <span>${item.tipo}</span> >
+                          ${breadcrumb}
+                        </span>
+                        <span class="destaque">${destaque}</span>
+                      </div>
+                    </div>
+                  `);
+                  container.append(novaDiv);
+                }
+              });
+
               if (botaoResultado.is(':empty') && resultados.length > 0) {
                 var botao = $('<div>').html(`
-                                    <div class="d-flex justify-content-end align-items-baseline">
-                                        <div class="w-100">
-                                            <button type="submit" class="btn btn-info w-100">Buscar</button>
-                                        </div>
-                                    </div>
-                                `);
+                    <div class="d-flex justify-content-end align-items-baseline">
+                        <div class="w-100">
+                            <button type="submit" class="btn btn-info w-100">Buscar</button>
+                        </div>
+                    </div>
+                `);
                 botaoResultado.append(botao);
               }
               //MOSTRAR SOMENTE SE SUCESSO NA REQUISIÇÃO
@@ -110,13 +118,16 @@ jQuery(document).ready(function () {
       jQuery(buttonContainer).empty();
     }
   }
-  // Configura os event listeners uma vez
+
+  // Aplica debounce de 500ms à função handleSearch
+  const debouncedSearch = debounce(handleSearch, 500);
+
   jQuery("#search-input").on('keyup', function () {
-    handleSearch(this, "#resultado", "#btn-busca-resultado");
+    debouncedSearch(this, "#resultado", "#btn-busca-resultado");
   });
 
   jQuery("#search-input-mobile").on('keyup', function () {
-    handleSearch(this, "#resultadoMobile", "#btn-busca-resultadoMobile");
+    debouncedSearch(this, "#resultadoMobile", "#btn-busca-resultadoMobile");
   });
 
   // Função para esconder #resultado ao clicar fora
