@@ -1,4 +1,57 @@
 jQuery(document).ready(function () {
+  // Add skeleton CSS styles dynamically
+  $('head').append(`
+    <style>
+      /* Skeleton loading styles */
+      .skeleton-item {
+        padding: 15px;
+        border-bottom: 1px solid #eee;
+      }
+      
+      .skeleton-title {
+        height: 20px;
+        width: 80%;
+        background-color: #e0e0e0;
+        margin-bottom: 10px;
+        border-radius: 4px;
+        animation: pulse 1.5s infinite ease-in-out;
+      }
+      
+      .skeleton-meta {
+        display: flex;
+        justify-content: space-between;
+      }
+      
+      .skeleton-breadcrumb {
+        height: 15px;
+        width: 60%;
+        background-color: #e0e0e0;
+        border-radius: 4px;
+        animation: pulse 1.5s infinite ease-in-out;
+      }
+      
+      .skeleton-tag {
+        height: 15px;
+        width: 50px;
+        background-color: #e0e0e0;
+        border-radius: 4px;
+        animation: pulse 1.5s infinite ease-in-out;
+      }
+      
+      @keyframes pulse {
+        0% {
+          opacity: 0.6;
+        }
+        50% {
+          opacity: 0.3;
+        }
+        100% {
+          opacity: 0.6;
+        }
+      }
+    </style>
+  `);
+
   // Verifica se reCAPTCHA está carregado
   if (typeof grecaptcha === 'undefined') {
     console.warn('reCAPTCHA não carregado');
@@ -13,23 +66,43 @@ jQuery(document).ready(function () {
     };
   }
 
+  // Função para criar skeletons
+  function createSkeletons(container, count) {
+    container.empty();
+    for (let i = 0; i < count; i++) {
+      const skeleton = $('<div>').addClass('resultadoItem d-flex flex-row skeleton-item').html(`
+        <div class="col-12 p-0">
+            <div class="skeleton-title"></div>
+            <div class="skeleton-meta">
+                <span class="skeleton-breadcrumb"></span>
+                <span class="skeleton-tag"></span>
+            </div>
+        </div>
+      `);
+      container.append(skeleton);
+    }
+  }
+
   // Função para lidar com a busca
   function handleSearch(inputElement, resultContainer, buttonContainer) {
     var textoDigitado = jQuery(inputElement).val();
     if (textoDigitado.length >= 3) {
       var textoParaConsultar = textoDigitado;
 
-      //MOSTRAR RESULTADO NO INÍCIO DA REQUISIÇÃO
-      //jQuery(resultContainer).show();
-
       // Zera a área de resultados antes de cada nova consulta
-      jQuery(resultContainer + " .flex-grow-1.d-flex.flex-column").empty();
+      var resultsContent = jQuery(resultContainer + " .flex-grow-1.d-flex.flex-column");
+      var container = resultsContent.length ? resultsContent : jQuery(resultContainer).find('.flex-grow-1.d-flex.flex-column');
+
+      container.empty();
       jQuery(buttonContainer).empty();
+
+      // Show skeleton loading
+      createSkeletons(container, 5); // Show 5 skeleton items
+      jQuery(resultContainer).show();
 
       var apiUrl = 'https://staging.busca.dados.rio/search/multi';
       var seuToken = 'YitGrH9ETxCMWpDivMkaFcGsYephpPs2E8VaPGVq67GcuLVMCXtSjX7qWjMtYEg4';
       var nomeColecao = 'carioca-digital,1746,pref-rio';
-
 
       // Obtém token reCAPTCHA antes de fazer a chamada AJAX
       grecaptcha.ready(function () {
