@@ -1,5 +1,5 @@
 jQuery(document).ready(function () {
-  // Add skeleton CSS styles dynamically
+  // Add skeleton and error CSS styles dynamically
   $('head').append(`
     <style>
       /* Skeleton loading styles */
@@ -49,6 +49,17 @@ jQuery(document).ready(function () {
           opacity: 0.6;
         }
       }
+      
+      /* Error message styles */
+      .error-message {
+        color: #000;
+        margin: 20px 0;
+        padding: 15px;
+        text-align: center;
+        font-size: 16px;
+        border-radius: 4px;
+        background-color: #f8f9fa;
+      }
     </style>
   `);
 
@@ -81,6 +92,12 @@ jQuery(document).ready(function () {
       `);
       container.append(skeleton);
     }
+  }
+
+  // Função para mostrar mensagem de erro
+  function showErrorMessage(container) {
+    container.html('<div class="error-message">Oops! Algo de errado ocorreu. Por favor, tente novamente mais tarde.</div>');
+    container.closest('#resultado, #resultadoMobile').show();
   }
 
   // Função para lidar com a busca
@@ -126,30 +143,31 @@ jQuery(document).ready(function () {
 
               container.empty();
 
-              $.each(resultados, function (index, item) {
-                // Initialize with empty array in case category is missing
-                let itensbreadcrumb = [];
+              if (resultados && resultados.length > 0) {
+                $.each(resultados, function (index, item) {
+                  // Initialize with empty array in case category is missing
+                  let itensbreadcrumb = [];
 
-                // Only try to process category if it exists and is an object
-                if (item.category && typeof item.category === 'object' && item.category !== null) {
-                  for (const [chave, valor] of Object.entries(item.category)) {
-                    itensbreadcrumb.push(valor);
+                  // Only try to process category if it exists and is an object
+                  if (item.category && typeof item.category === 'object' && item.category !== null) {
+                    for (const [chave, valor] of Object.entries(item.category)) {
+                      itensbreadcrumb.push(valor);
+                    }
                   }
-                }
 
-                const breadcrumb = itensbreadcrumb.join(" > ");
+                  const breadcrumb = itensbreadcrumb.join(" > ");
 
-                let destaque;
-                if (item.collection === 'carioca-digital') {
-                  destaque = "carioca";
-                } else if (item.collection === '1746') {
-                  destaque = "1746";
-                } else if (item.collection === 'pref-rio') {
-                  destaque = "prefeitura";
-                }
+                  let destaque;
+                  if (item.collection === 'carioca-digital') {
+                    destaque = "carioca";
+                  } else if (item.collection === '1746') {
+                    destaque = "1746";
+                  } else if (item.collection === 'pref-rio') {
+                    destaque = "prefeitura";
+                  }
 
-                if (item.tipo !== 'noticia') {
-                  const novaDiv = $('<a>').addClass('resultadoItem d-flex flex-row').attr('href', item.url).html(`
+                  if (item.tipo !== 'noticia') {
+                    const novaDiv = $('<a>').addClass('resultadoItem d-flex flex-row').attr('href', item.url).html(`
             <div class="col-12 p-0 ">
                 <div class="col-12 p-0 resultadoTitulo">
                     <a href="${item.url}">${item.titulo}</a>
@@ -163,33 +181,36 @@ jQuery(document).ready(function () {
                 </div>
             </div>
         `);
-                  container.append(novaDiv);
-                }
-              });
+                    container.append(novaDiv);
+                  }
+                });
 
-              if (botaoResultado.is(':empty') && resultados.length > 0) {
-                var botao = $('<div>').html(`
+                if (botaoResultado.is(':empty') && resultados.length > 0) {
+                  var botao = $('<div>').html(`
                     <div class="d-flex justify-content-end align-items-baseline">
                         <div class="w-100">
                             <button type="submit" class="btn btn-info w-100">Buscar</button>
                         </div>
                     </div>
-                `);
-                botaoResultado.append(botao);
+                  `);
+                  botaoResultado.append(botao);
+                }
+              } else {
+                showErrorMessage(container);
               }
-              //MOSTRAR SOMENTE SE SUCESSO NA REQUISIÇÃO
+
               jQuery(resultContainer).show();
             },
             error: function (error) {
               console.error("Erro na chamada à API:", error);
-              if (error.status === 403) {
-                jQuery(resultContainer + " .flex-grow-1.d-flex.flex-column").html('<div class="error-message">Verificação de segurança falhou. Por favor, tente novamente.</div>');
-              }
+              const container = jQuery(resultContainer + " .flex-grow-1.d-flex.flex-column");
+              showErrorMessage(container);
             }
           });
         }).catch(function (error) {
           console.error("Erro no reCAPTCHA:", error);
-          jQuery(resultContainer + " .flex-grow-1.d-flex.flex-column").html('<div class="error-message">Erro na verificação de segurança. Recarregue a página.</div>');
+          const container = jQuery(resultContainer + " .flex-grow-1.d-flex.flex-column");
+          showErrorMessage(container);
         });
       });
     } else {
