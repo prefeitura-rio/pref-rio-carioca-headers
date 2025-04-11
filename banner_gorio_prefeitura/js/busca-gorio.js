@@ -68,6 +68,35 @@ jQuery(document).ready(function () {
     console.warn('reCAPTCHA não carregado');
   }
 
+  // Cookie functions
+  function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+  }
+
+  function setCookie(name, value, days) {
+    const date = new Date();
+    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+    document.cookie = `${name}=${value};expires=${date.toUTCString()};path=/`;
+  }
+
+  // Get or create session ID
+  function getSessionId() {
+    let sessionId = getCookie('search_session_id');
+    if (!sessionId) {
+      sessionId = self.crypto.randomUUID();
+      setCookie('search_session_id', sessionId, 30); // Store for 30 days
+    }
+    return sessionId;
+  }
+
+  // Detect device type
+  function getDeviceType() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ? 'Mobile' : 'Desktop';
+  }
+
+
   // Função debounce
   function debounce(func, delay) {
     let timeout;
@@ -165,6 +194,51 @@ jQuery(document).ready(function () {
     }
   }
 
+  // Function to send search metrics
+  async function sendSearchMetrics(query) {
+    try {
+      const sessionId = getSessionId();
+      const deviceType = getDeviceType();
+
+      // Get reCAPTCHA token
+      const token = await new Promise((resolve) => {
+        grecaptcha.ready(() => {
+          grecaptcha.execute('6Le9BwgrAAAAAFsZHFHdv-JWZApR-x-9ZOVnnetv', { action: 'metrics' })
+            .then(resolve)
+            .catch(() => resolve(null));
+        });
+      });
+
+      if (!token) {
+        console.warn('Failed to get reCAPTCHA token');
+        return;
+      }
+
+      const metricsData = {
+        session_id: sessionId,
+        query: query,
+        portal_origem: "Prefeitura Rio",
+        tipo_dispositivo: deviceType,
+        llm_reorder: false
+      };
+
+      const response = await fetch('https://prefeiturariohom.rio.gov.br/proxy/proxy_metrics_busca.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Recaptcha-Token': token
+        },
+        body: JSON.stringify(metricsData)
+      });
+
+      if (!response.ok) {
+        console.warn('Metrics submission failed', response.status);
+      }
+    } catch (error) {
+      console.warn('Error sending metrics', error);
+    }
+  }
+
   // Função para lidar com a busca
   function handleSearch(inputElement, resultContainer, buttonContainer) {
     var textoDigitado = jQuery(inputElement).val();
@@ -222,6 +296,8 @@ jQuery(document).ready(function () {
   function redirectToSearch(inputElement) {
     const query = jQuery(inputElement).val();
     if (query.length >= 3) {
+      // Send metrics before redirecting
+      sendSearchMetrics(query);
       const searchUrl = `https://staging.buscador.dados.rio/search-result?q=${encodeURIComponent(query)}`;
       window.location.href = searchUrl;
     }
