@@ -68,6 +68,69 @@ jQuery(document).ready(function () {
     console.warn('reCAPTCHA não carregado');
   }
 
+  // Cookie functions
+  function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+  }
+
+  function setCookie(name, value, days) {
+    const date = new Date();
+    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+    document.cookie = `${name}=${value};expires=${date.toUTCString()};path=/`;
+  }
+
+  // Get or create session ID
+  function getSessionId() {
+    let sessionId = getCookie('search_session_id');
+    if (!sessionId) {
+      sessionId = self.crypto.randomUUID();
+      setCookie('search_session_id', sessionId, 30); // Store for 30 days
+    }
+    return sessionId;
+  }
+
+  // Detect device type
+  function getDeviceType() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ? 'Mobile' : 'Desktop';
+  }
+
+  // Function to send metrics
+  function sendSearchMetrics(query) {
+    if (!query || query.length < 3) return;
+
+    grecaptcha.ready(function () {
+      grecaptcha.execute('6Le9BwgrAAAAAFsZHFHdv-JWZApR-x-9ZOVnnetv', { action: 'search' }).then(function (token) {
+        const metricsData = {
+          session_id: getSessionId(),
+          query: query,
+          portal_origem: "Carioca Digital",
+          tipo_dispositivo: getDeviceType(),
+          llm_reorder: false
+        };
+
+        $.ajax({
+          url: 'https://staging.busca.dados.rio/metrics/busca',
+          method: 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify(metricsData),
+          headers: {
+            'X-Recaptcha-Token': token
+          },
+          success: function () {
+            console.log('Metrics sent successfully');
+          },
+          error: function (error) {
+            console.error('Error sending metrics:', error);
+          }
+        });
+      }).catch(function (error) {
+        console.error('reCAPTCHA error:', error);
+      });
+    });
+  }
+
   // Função debounce
   function debounce(func, delay) {
     let timeout;
@@ -228,6 +291,9 @@ jQuery(document).ready(function () {
   function redirectToSearch(inputElement) {
     const query = jQuery(inputElement).val();
     if (query.length >= 3) {
+      // Send metrics before redirecting
+      sendSearchMetrics(query);
+
       const searchUrl = `https://staging.buscador.dados.rio/search-result?q=${encodeURIComponent(query)}`;
       window.location.href = searchUrl;
     }
