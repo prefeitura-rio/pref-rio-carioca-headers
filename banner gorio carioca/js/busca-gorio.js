@@ -60,6 +60,13 @@ jQuery(document).ready(function () {
         border-radius: 4px;
         background-color: #f8f9fa;
       }
+      .resultadoTitulo span {
+        color: black !important; 
+      }
+
+      .resultadoItem {
+        cursor: pointer;
+      }
     </style>
   `);
 
@@ -101,7 +108,9 @@ jQuery(document).ready(function () {
     if (!query || query.length < 3) return;
 
     grecaptcha.ready(function () {
-      grecaptcha.execute('6Le9BwgrAAAAAFsZHFHdv-JWZApR-x-9ZOVnnetv', { action: 'search' }).then(function (token) {
+      grecaptcha.execute('6Le9BwgrAAAAAFsZHFHdv-JWZApR-x-9ZOVnnetv', {
+        action: 'search'
+      }).then(function (token) {
         const metricsData = {
           session_id: getSessionId(),
           query: query,
@@ -123,6 +132,43 @@ jQuery(document).ready(function () {
           },
           error: function (error) {
             console.error('Error sending metrics:', error);
+          }
+        });
+      }).catch(function (error) {
+        console.error('reCAPTCHA error:', error);
+      });
+    });
+  }
+
+  function sendClickMetrics(item, position, query) {
+    grecaptcha.ready(function () {
+      grecaptcha.execute('6Le9BwgrAAAAAFsZHFHdv-JWZApR-x-9ZOVnnetv', {
+        action: 'search'
+      }).then(function (token) {
+        const metricsData = {
+          session_id: getSessionId(),
+          portal_origem: "Carioca Digital",
+          tipo_dispositivo: getDeviceType(),
+          filters: ["servicos"],
+          llm_reorder: false,
+          posicao: position,
+          objeto_clicado: item,
+          query: query
+        };
+
+        $.ajax({
+          url: 'https://staging.busca.dados.rio/metrics/clique',
+          method: 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify(metricsData),
+          headers: {
+            'X-Recaptcha-Token': token
+          },
+          success: function () {
+            console.log('Click metrics sent successfully');
+          },
+          error: function (error) {
+            console.error('Error sending click metrics:', error);
           }
         });
       }).catch(function (error) {
@@ -186,7 +232,9 @@ jQuery(document).ready(function () {
 
       // Obtém token reCAPTCHA antes de fazer a chamada AJAX
       grecaptcha.ready(function () {
-        grecaptcha.execute('6Le9BwgrAAAAAFsZHFHdv-JWZApR-x-9ZOVnnetv', { action: 'search' }).then(function (token) {
+        grecaptcha.execute('6Le9BwgrAAAAAFsZHFHdv-JWZApR-x-9ZOVnnetv', {
+          action: 'search'
+        }).then(function (token) {
           $.ajax({
             url: apiUrl,
             method: 'GET',
@@ -230,10 +278,10 @@ jQuery(document).ready(function () {
                   }
 
                   if (item.tipo !== 'noticia') {
-                    const novaDiv = $('<a>').addClass('resultadoItem d-flex flex-row').attr('href', item.url).html(`
+                    const novaDiv = $('<span>').addClass('resultadoItem d-flex flex-row').html(`
             <div class="col-12 p-0 ">
                 <div class="col-12 p-0 resultadoTitulo">
-                    <a href="${item.url}">${item.titulo}</a>
+                    <span>${item.titulo}</span>
                 </div>
                 <div class="col-12 p-0">
                     <span>
@@ -244,6 +292,20 @@ jQuery(document).ready(function () {
                 </div>
             </div>
         `);
+
+                    // Add click handler for the result item
+                    novaDiv.on('click', function (e) {
+                      e.preventDefault(); // Prevent default behavior to allow time for metrics to send
+
+                      // Send click metrics
+                      sendClickMetrics(item, index, textoParaConsultar);
+
+                      // Redirect after a short delay to ensure metrics are sent
+                      setTimeout(() => {
+                        window.location.href = item.url;
+                      }, 200); // Adjust the delay as needed (200ms is usually sufficient)
+                    });
+
                     container.append(novaDiv);
                   }
                 });
