@@ -127,7 +127,7 @@ $container = get_theme_mod('understrap_container_type');
 							<div class="whrapper-buscar">
 								<div class="col-sm-12 logo_principal">
 									<!--<a href="<?php echo home_url(); ?>"><img class="logo-rio2020" src="https://portalpcrjwp.hom.rio.gov.br/wp-content/uploads/2020/04/logo-riocma2020.png"></a>-->
-									<a href="<?php echo home_url(); ?>"><img class="logo-prefeitura"
+									<a href="https://prefeitura.rio"><img class="logo-prefeitura"
 											src="<?php bloginfo("template_url"); ?>/images/RIOPREFEITURA-horizontal-branco.png"></a>
 									<a href="<?php echo home_url(); ?>"><img class="logo-prefeitura"
 											src="<?php bloginfo("template_url"); ?>/images/logotipo-carioca.png"></a>
@@ -136,9 +136,9 @@ $container = get_theme_mod('understrap_container_type');
 						</div>
 						<!-- aqui entra o script da busca geral -->
 						<div class="col-md-5 busca-nova">
-							<form action="https://buscador.dados.rio/search-result" method="get">
+							<form action="https://staging.buscador.dados.rio/search-result" method="get">
 								<div class="search-input-container">
-									<input type="text" name="q" placeholder="Do que você precisa?" class="search-input"
+									<input type="text" autocomplete="off" name="q" placeholder="Do que você precisa?" class="search-input"
 										id="search-input" required>
 									<button type="submit" class="search-button">
 										<svg viewBox="0 0 24 24">
@@ -232,9 +232,9 @@ $container = get_theme_mod('understrap_container_type');
 				</div>
 			</div>
 			<div id="search-mobile" style="col-12">
-				<form action="https://buscador.dados.rio/search-result" method="get">
+				<form action="https://staging.buscador.dados.rio/search-result" method="get">
 					<div class="search-input-container">
-						<input type="text" name="q" placeholder="Do que você precisa?" class="search-input"
+						<input autocomplete="off" type="text" name="q" placeholder="Do que você precisa?" class="search-input"
 							id="search-input-mobile" required>
 						<button type="submit" class="search-button">
 							<svg viewBox="0 0 24 24">

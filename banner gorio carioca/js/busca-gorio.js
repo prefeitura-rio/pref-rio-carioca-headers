@@ -189,11 +189,16 @@ jQuery(document).ready(function () {
                   var botao = $('<div>').html(`
                     <div class="d-flex justify-content-end align-items-baseline">
                         <div class="w-100">
-                            <button type="submit" class="btn btn-info w-100">Buscar</button>
+                            <button type="button" class="btn btn-info w-100" id="buscar-button">Buscar</button>
                         </div>
                     </div>
                   `);
                   botaoResultado.append(botao);
+
+                  // Add click handler for the Buscar button
+                  $('#buscar-button').on('click', function () {
+                    redirectToSearch(inputElement);
+                  });
                 }
               } else {
                 showErrorMessage(container);
@@ -219,20 +224,47 @@ jQuery(document).ready(function () {
     }
   }
 
+  // Function to handle search redirection
+  function redirectToSearch(inputElement) {
+    const query = jQuery(inputElement).val();
+    if (query.length >= 3) {
+      const searchUrl = `https://staging.buscador.dados.rio/search-result?q=${encodeURIComponent(query)}`;
+      window.location.href = searchUrl;
+    }
+  }
+
   // Aplica debounce de 500ms à função handleSearch
   const debouncedSearch = debounce(handleSearch, 500);
 
-  jQuery("#search-input").on('keyup', function () {
-    debouncedSearch(this, "#resultado", "#btn-busca-resultado");
+  // Update event listeners for search input and button
+  jQuery("#search-input").on('keyup', function (event) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      redirectToSearch(this);
+    } else {
+      debouncedSearch(this, "#resultado", "#btn-busca-resultado");
+    }
   });
 
-  jQuery("#search-input-mobile").on('keyup', function () {
-    debouncedSearch(this, "#resultadoMobile", "#btn-busca-resultadoMobile");
+  jQuery("#search-input-mobile").on('keyup', function (event) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      redirectToSearch(this);
+    } else {
+      debouncedSearch(this, "#resultadoMobile", "#btn-busca-resultadoMobile");
+    }
+  });
+
+  // Handle search button click (both desktop and mobile)
+  jQuery(".search-button").on('click', function (event) {
+    event.preventDefault();
+    const inputElement = jQuery(this).closest('.search-input-container').find('.search-input');
+    redirectToSearch(inputElement);
   });
 
   // Função para esconder #resultado ao clicar fora
   $(document).on('click', function (event) {
-    if (!$(event.target).closest('#resultado, #resultadoMobile').length) {
+    if (!$(event.target).closest('#resultado, #resultadoMobile, .search-input, .search-button').length) {
       $('#resultado, #resultadoMobile').hide();
       $('#btn-busca-resultado, #btn-busca-resultadoMobile').empty();
     }

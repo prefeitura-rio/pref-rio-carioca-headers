@@ -149,11 +149,16 @@ jQuery(document).ready(function () {
         var botao = $('<div>').html(`
           <div class="d-flex justify-content-end align-items-baseline">
               <div class="w-100">
-                  <button type="submit" class="btn btn-info w-100">Buscar</button>
+                  <button type="button" class="btn btn-info w-100" id="buscar-button">Buscar</button>
               </div>
           </div>
         `);
         botaoResultado.append(botao);
+
+        // Add click handler for the Buscar button
+        $('#buscar-button').on('click', function () {
+          redirectToSearch($('.search-input').first());
+        });
       }
     } else {
       showErrorMessage(container);
@@ -213,30 +218,84 @@ jQuery(document).ready(function () {
     }
   }
 
-  // Aplica debounce de 500ms
-  const debouncedSearch = debounce(handleSearch, 500);
-
-  function verificarLarguraTela() {
-    if (window.innerWidth <= 480) {
-      jQuery("#search-input-mobile").off('keyup').on('keyup', function () {
-        debouncedSearch(this, "#resultadoMobile", "#btn-busca-resultadoMobile");
-      });
-    } else {
-      jQuery("#search-input").off('keyup').on('keyup', function () {
-        debouncedSearch(this, "#resultado", "#btn-busca-resultado");
-      });
+  // Function to handle search redirection
+  function redirectToSearch(inputElement) {
+    const query = jQuery(inputElement).val();
+    if (query.length >= 3) {
+      const searchUrl = `https://staging.buscador.dados.rio/search-result?q=${encodeURIComponent(query)}`;
+      window.location.href = searchUrl;
     }
   }
 
-  // Verificar no carregamento inicial
-  verificarLarguraTela();
+  // Aplica debounce de 500ms
+  const debouncedSearch = debounce(handleSearch, 500);
 
-  // Atualizar quando a janela for redimensionada
-  $(window).on('resize', verificarLarguraTela);
+  // Initialize search functionality for both desktop and mobile
+  function initializeSearch() {
+    // Desktop search
+    jQuery("#search-input").off('keyup').on('keyup', function (event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        redirectToSearch(this);
+      } else {
+        debouncedSearch(this, "#resultado", "#btn-busca-resultado");
+      }
+    });
+
+    // Mobile search
+    jQuery("#search-input-mobile").off('keyup').on('keyup', function (event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        redirectToSearch(this);
+      } else {
+        debouncedSearch(this, "#resultadoMobile", "#btn-busca-resultadoMobile");
+      }
+    });
+
+    // Handle search button clicks (both desktop and mobile)
+    jQuery(".search-button").off('click').on('click', function (event) {
+      event.preventDefault();
+      const form = jQuery(this).closest('form');
+      const inputElement = form.find('.search-input');
+      redirectToSearch(inputElement);
+    });
+
+    // Handle "Buscar" button clicks in results
+    $(document).off('click', '#buscar-button').on('click', '#buscar-button', function () {
+      const inputElement = jQuery('#search-input, #search-input-mobile').filter(function () {
+        return jQuery(this).val().length >= 3;
+      }).first();
+      if (inputElement.length) {
+        redirectToSearch(inputElement);
+      }
+    });
+
+    // Mobile search toggle functionality
+    $('.lupasearch').off('click').on('click', function () {
+      $('#search-mobile').show();
+      $('#search-input-mobile').focus();
+      $('.lupasearch').hide();
+      $('.closesearch').show();
+    });
+
+    $('.closesearch').off('click').on('click', function () {
+      $('#search-mobile').hide();
+      $('.lupasearch').show();
+      $('.closesearch').hide();
+      $('#resultadoMobile').hide();
+      $('#btn-busca-resultadoMobile').empty();
+    });
+  }
+
+  // Initialize on load
+  initializeSearch();
+
+  // Reinitialize when window is resized
+  $(window).on('resize', initializeSearch);
 
   // Função para esconder #resultado ao clicar fora
   $(document).on('click', function (event) {
-    if (!$(event.target).closest('#resultado, #resultadoMobile').length) {
+    if (!$(event.target).closest('#resultado, #resultadoMobile, .search-input, .search-button').length) {
       $('#resultado, #resultadoMobile').hide();
       $('#btn-busca-resultado, #btn-busca-resultadoMobile').empty();
     }
