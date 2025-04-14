@@ -60,6 +60,14 @@ jQuery(document).ready(function () {
         border-radius: 4px;
         background-color: #f8f9fa;
       }
+
+       .resultadoTitulo span {
+        color: black !important; 
+      }
+
+      .resultadoItem {
+        cursor: pointer;
+      }
     </style>
   `);
 
@@ -156,10 +164,10 @@ jQuery(document).ready(function () {
         }
 
         if (item.tipo !== 'noticia') {
-          const novaDiv = $('<a>').addClass('resultadoItem d-flex flex-row').attr('href', item.url).html(`
+          const novaDiv = $('<a>').addClass('resultadoItem d-flex flex-row').html(`
             <div class="col-12 p-0 ">
                 <div class="col-12 p-0 resultadoTitulo">
-                    <a href="${item.url}">${item.titulo}</a>
+                    <a>${item.titulo}</a>
                 </div>
                 <div class="col-12 p-0">
                     <span>
@@ -169,19 +177,32 @@ jQuery(document).ready(function () {
                     <span class="destaque">${destaque}</span>
                 </div>
             </div>
-          `);
+        `);
+
+          // Add click handler for tracking
+          novaDiv.on('click', function (e) {
+            e.preventDefault();
+            const searchInput = $('.search-input').first();
+            const query = searchInput.val();
+            sendClickMetrics(query, index, item);
+            setTimeout(() => {
+               window.location.href = item.url;
+              //window.open(item.url, '_blank'); 
+            }, 200);
+          });
+
           container.append(novaDiv);
         }
       });
 
       if (botaoResultado.is(':empty') && resultados.length > 0) {
         var botao = $('<div>').html(`
-          <div class="d-flex justify-content-end align-items-baseline">
-              <div class="w-100">
-                  <button type="button" class="btn btn-info w-100" id="buscar-button">Buscar</button>
-              </div>
-          </div>
-        `);
+        <div class="d-flex justify-content-end align-items-baseline">
+            <div class="w-100">
+                <button type="button" class="btn btn-info w-100" id="buscar-button">Buscar</button>
+            </div>
+        </div>
+      `);
         botaoResultado.append(botao);
 
         // Add click handler for the Buscar button
@@ -236,6 +257,54 @@ jQuery(document).ready(function () {
       }
     } catch (error) {
       console.warn('Error sending metrics', error);
+    }
+  }
+
+  // Add this function to send click metrics
+  async function sendClickMetrics(query, position, item) {
+    try {
+      const sessionId = getSessionId();
+      const deviceType = getDeviceType();
+
+      // Get reCAPTCHA token
+      const token = await new Promise((resolve) => {
+        grecaptcha.ready(() => {
+          grecaptcha.execute('6Le9BwgrAAAAAFsZHFHdv-JWZApR-x-9ZOVnnetv', { action: 'metrics' })
+            .then(resolve)
+            .catch(() => resolve(null));
+        });
+      });
+
+      if (!token) {
+        console.warn('Failed to get reCAPTCHA token');
+        return;
+      }
+
+      const metricsData = {
+        session_id: sessionId,
+        query: query,
+        portal_origem: "Carioca Digital",
+        tipo_dispositivo: deviceType,
+        filters: ["servicos"], // You can modify this based on actual filters
+        llm_reorder: false,
+        posicao: position,
+        objeto_clicado: item
+      };
+
+      const response = await fetch('https://prefeiturariohom.rio.gov.br/proxy/proxy_metrics_clique.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Recaptcha-Token': token
+        },
+        body: JSON.stringify(metricsData)
+      });
+
+      if (!response.ok) {
+        console.warn('Click metrics submission failed', response.status);
+      }
+    } catch (error) {
+      console.warn('Error sending click metrics', error);
     }
   }
 
@@ -337,14 +406,17 @@ jQuery(document).ready(function () {
     });
 
     // Handle "Buscar" button clicks in results
-    $(document).off('click', '#buscar-button').on('click', '#buscar-button', function () {
+    $(document).off('click', '#buscar-button').on('click', '#buscar-button', async function () {
       const inputElement = jQuery('#search-input, #search-input-mobile').filter(function () {
         return jQuery(this).val().length >= 3;
       }).first();
+
       if (inputElement.length) {
+        const query = inputElement.val();
+        await sendSearchMetrics(query); // Ensure metrics are sent before redirecting
         redirectToSearch(inputElement);
-      }
-    });
+        }
+      });
 
     // Mobile search toggle functionality
     $('.lupasearch').off('click').on('click', function () {

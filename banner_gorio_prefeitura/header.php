@@ -61,7 +61,7 @@
                     <div class="col-md-6 busca-nova">
                         <form action="https://buscador.dados.rio/search-result" method="get">
                             <div class="search-input-container">
-                                <input type="text" name="q" placeholder="Do que você precisa?" class="search-input"
+                                <input type="text" autocomplete="off" name="q" placeholder="Do que você precisa?" class="search-input"
                                     id="search-input" required>
                                 <button type="submit" class="search-button">
                                     <svg viewBox="0 0 24 24">
@@ -80,15 +80,15 @@
                     </div>
                     <div class="col-md-4 col-lg-2 logos">
                         <div class="logos-social-media">
-                            <a href="https://www.instagram.com/prefeitura_rio" target="blank"><img
+                            <a href="https://www.instagram.com/prefeitura_rio" target="_blank"><img
                                     class="midias-sociais"
                                     src="<?php bloginfo("template_url"); ?>/layouts/images/header/logo-instagram-gorio.png"></a>
-                            <a href="https://twitter.com/Prefeitura_Rio" target="blank"><img class="midias-sociais"
+                            <a href="https://twitter.com/Prefeitura_Rio" target="_blank"><img class="midias-sociais"
                                     src="<?php bloginfo("template_url"); ?>/layouts/images/header/logo-twitter-gorio.png"></a>
-                            <a href="https://www.facebook.com/PrefeituradoRio" target="blank"><img
+                            <a href="https://www.facebook.com/PrefeituradoRio" target="_blank"><img
                                     class="midias-sociais"
                                     src="<?php bloginfo("template_url"); ?>/layouts/images/header/logo-facebook-gorio.png"></a>
-                            <a href="https://www.youtube.com/channel/UCBf3rlo_iHd4kRePPhFXDUQ" target="blank"><img
+                            <a href="https://www.youtube.com/channel/UCBf3rlo_iHd4kRePPhFXDUQ" target="_blank"><img
                                     class="midias-sociais"
                                     src="<?php bloginfo("template_url"); ?>/layouts/images/header/logo-youtube-gorio.png"></a>
                         </div>
@@ -136,15 +136,15 @@
 
                     <div class="logos">
                         <div class="logos-servicos">
-                            <a href="#" target="blank"><img class="logo-sitecompativel"
+                            <a style="cursor: none;"><img class="logo-sitecompativel"
                                     src="<?php bloginfo("template_url"); ?>/layouts/images/header/compativel.png"></a>
-                            <a href="http://prefeitura.rio/#inline_content" target="blank"><img class="logo-carioca"
+                            <a href="https://carioca.rio" target="_blank"><img class="logo-carioca"
                                     src="<?php bloginfo("template_url"); ?>/layouts/images/header/logo-carioca.png"></a>
-                            <a href="https://www.1746.rio/" target="blank"><img class="logo-1746"
+                            <a href="https://www.1746.rio/" target="_blank"><img class="logo-1746"
                                     src="<?php bloginfo("template_url"); ?>/layouts/images/header/logo-1746.png"></a>
-                            <a href="https://lgpd.prefeitura.rio/" target="blank"><img class="logo-lgpd"
+                            <a href="https://lgpd.prefeitura.rio/" target="_blank"><img class="logo-lgpd"
                                     src="<?php bloginfo("template_url"); ?>/layouts/images/header/lgpd.png"></a>
-                            <a href="https://transparencia.prefeitura.rio/" target="blank"><img class="logo-informacao"
+                            <a href="https://transparencia.prefeitura.rio/" target="_blank"><img class="logo-informacao"
                                     src="<?php bloginfo("template_url"); ?>/layouts/images/header/acesso-a-informacao-v2.png"></a>
                         </div>
                     </div>
@@ -153,15 +153,15 @@
 
                     <div class="logos">
                         <div class="logos-servicos">
-                            <a href="#" target="blank"><img class="logo-sitecompativel"
+                            <a style="cursor: none;"><img class="logo-sitecompativel"
                                     src="<?php bloginfo("template_url"); ?>/layouts/images/header/compativel.png"></a>
-                            <a href="http://prefeitura.rio/#inline_content" target="blank"><img class="logo-carioca"
+                            <a href="https://carioca.rio" target="_blank"><img class="logo-carioca"
                                     src="<?php bloginfo("template_url"); ?>/layouts/images/header/logo-carioca.png"></a>
-                            <a href="https://www.1746.rio/" target="blank"><img class="logo-1746"
+                            <a href="https://www.1746.rio/" target="_blank"><img class="logo-1746"
                                     src="<?php bloginfo("template_url"); ?>/layouts/images/header/logo-1746.png"></a>
-                            <a href="https://lgpd.prefeitura.rio/" target="blank"><img class="logo-lgpd"
+                            <a href="https://lgpd.prefeitura.rio/" target="_blank"><img class="logo-lgpd"
                                     src="<?php bloginfo("template_url"); ?>/layouts/images/header/lgpd.png"></a>
-                            <a href="https://transparencia.prefeitura.rio/" target="blank"><img class="logo-informacao"
+                            <a href="https://transparencia.prefeitura.rio/" target="_blank"><img class="logo-informacao"
                                     src="<?php bloginfo("template_url"); ?>/layouts/images/header/acesso-a-informacao-v2.png"></a>
                         </div>
                     </div>
@@ -173,7 +173,7 @@
         <div id="search-mobile" style="col-12">
             <form action="https://buscador.dados.rio/search-result" method="get">
                 <div class="search-input-container">
-                    <input type="text" name="q" placeholder="Do que você precisa?" class="search-input"
+                    <input type="text" autocomplete="off" name="q" placeholder="Do que você precisa?" class="search-input"
                         id="search-input-mobile" required>
                     <button type="submit" class="search-button">
                         <svg viewBox="0 0 24 24">

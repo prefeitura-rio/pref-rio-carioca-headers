@@ -31,7 +31,7 @@
    
     const btnMenu = $("#menu-hamburguer");
     const contentMenu = $("#wrapper-footer-full");
-    const btnClose = $("<div class='fechar-menu'><img src='https://carioca.rio/wp-content/themes/carioca-digital-V2.0-2023/images/cross.png'></div> ")
+    const btnClose = $("<div class='fechar-menu'><img src='<?php bloginfo('template_url'); ?>/images/cross.png'></div> ")
 
     $(btnMenu).click(function() {
         $(contentMenu).fadeToggle( "fast", "linear" )

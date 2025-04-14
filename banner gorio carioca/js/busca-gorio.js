@@ -285,7 +285,7 @@ jQuery(document).ready(function () {
                 </div>
                 <div class="col-12 p-0">
                     <span>
-                        <span>${item.tipo === 'servico' ? 'Serviço' : item.tipo}</span>
+                        <span>${item.tipo === 'servico' ? 'Serviço' : item.tipo}</span> > 
                         ${breadcrumb}
                     </span>
                     <span class="destaque">${destaque}</span>

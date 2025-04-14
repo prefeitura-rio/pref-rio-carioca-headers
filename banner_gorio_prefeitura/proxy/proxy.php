@@ -12,7 +12,7 @@ $recaptchaToken = isset($params['recaptcha_token']) ? $params['recaptcha_token']
 unset($params['recaptcha_token']); // Remove token from forwarded parameters
 
 // Build the target API URL with remaining parameters
-$apiUrl = 'https://staging.busca.dados.rio/search/multi?' . http_build_query($params);
+$apiUrl = 'https://busca.dados.rio/search/multi?' . http_build_query($params);
 
 // Prepare headers - we only send the reCAPTCHA token now
 $headers = [];

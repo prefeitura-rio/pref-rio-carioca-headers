@@ -13,7 +13,7 @@
   border: none;
   background: transparent;
   padding: 8px;
-  font-size: 16px;
+  font-size: 16px !important;
   color: #FFF;
   /* Example text color */
   outline: none;
@@ -80,10 +80,12 @@
   margin-top: 265px !important;
 }
 
-button.btn.btn-info.w-100 {
+#btn-busca-resultado button.btn.btn-info.w-100 {
   width: 106% !important;
 }
-
+#btn-busca-resultadoMobile button.btn.btn-info.w-100{
+  width: 10% !important;
+}
 #resultado .resultadoItem,
 #resultadoMobile .resultadoItem {
   /*border-bottom: 1px solid #17171754;*/

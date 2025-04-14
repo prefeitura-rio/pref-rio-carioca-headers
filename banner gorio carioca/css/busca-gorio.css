@@ -47,7 +47,8 @@ nav.navbar.navbar-expand-md.navbar-dark {
 }
 
 #header-gorio .gorio-busca .agrupa-gorio-busca .lupasearch img.midias-sociais.lupa {
-    height: 40px;
+    height: 25px;
+    margin-top: 3px;
 }
 
 #menu-gorio {
@@ -212,7 +213,7 @@ nav.navbar.navbar-expand-md.navbar-dark {
 
     #header-gorio .lupasearch {
         display: block;
-        margin-left: -10px;
+        margin-left: -5px;
         cursor: pointer;
     }
 
@@ -235,22 +236,21 @@ nav.navbar.navbar-expand-md.navbar-dark {
         display: none;
     }
 
-    .closesearch.ativo {
-        display: flex;
+    #header-gorio .closesearch.ativo {
+        display: block !important;
     }
 
     .lupasearch.desativado {
         display: none !important;
     }
 
-    #header-gorio .closesearch {
-        display: block;
-    }
 
     #header-gorio .closesearch .btnclose {
-        height: 40px;
-        margin-left: -10px;
+        height: 30px;
+        margin-left: -5px;
         cursor: pointer;
+        margin-top: 3px;
     }
+    
 
 }

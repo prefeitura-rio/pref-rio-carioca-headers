@@ -156,22 +156,22 @@ $container = get_theme_mod('understrap_container_type');
 						<!-- aqui entra o script da busca geral -->
 						<div class="col-3 logos">
 							<div class="logos-social-media d-flex align-items-center justify-content-end">
-							<a href="https://www.instagram.com/prefeitura_rio" target="blank"><img
+							<a href="https://www.instagram.com/prefeitura_rio" target="_blank"><img
 										class="midias-sociais"
 										src="<?php bloginfo("template_url"); ?>/images/instagram.png"></a>	
-							<a href="https://twitter.com/Prefeitura_Rio" target="blank"><img class="midias-sociais"
+							<a href="https://twitter.com/Prefeitura_Rio" target="_blank"><img class="midias-sociais"
 										src="<?php bloginfo("template_url"); ?>/images/twitter.png"></a>
-								<a href="https://www.facebook.com/PrefeituradoRio" target="blank"><img
+								<a href="https://www.facebook.com/PrefeituradoRio" target="_blank"><img
 										class="midias-sociais"
 										src="<?php bloginfo("template_url"); ?>/images/facebook.png"></a>
-								<a href="https://www.youtube.com/channel/UCBf3rlo_iHd4kRePPhFXDUQ" target="blank"><img
+								<a href="https://www.youtube.com/channel/UCBf3rlo_iHd4kRePPhFXDUQ" target="_blank"><img
 										class="midias-sociais"
 										src="<?php bloginfo("template_url"); ?>/images/youtube.png"></a>
-								<!--<a href="#" target="blank"><img class="midias-sociais login"
+								<!--<a href="#" target="_blank"><img class="midias-sociais login"
 										src="<?php bloginfo("template_url"); ?>/images/user.png"></a>-->
 							</div>
 						</div>
-						<div class="col-4 lupasearch">
+						<div class="col-3 lupasearch">
 							<img class="midias-sociais lupa"
 								src="<?php bloginfo("template_url"); ?>/images/lupa-mobile.png">
 						</div>
@@ -219,11 +219,11 @@ $container = get_theme_mod('understrap_container_type');
 
 						<div class="logos">
 							<div class="logos-servicos">
-								<a href="https://www.1746.rio/" target="blank"><img class="logo-1746"
+								<a href="https://www.1746.rio/" target="_blank"><img class="logo-1746"
 										src="<?php bloginfo("template_url"); ?>/images/logo-1746.png"></a>
-								<a href="https://lgpd.prefeitura.rio/" target="blank"><img class="logo-lgpd"
+								<a href="https://lgpd.prefeitura.rio/" target="_blank"><img class="logo-lgpd"
 										src="<?php bloginfo("template_url"); ?>/images/lgpd.png"></a>
-								<a href="https://transparencia.prefeitura.rio/" target="blank"><img
+								<a href="https://transparencia.prefeitura.rio/" target="_blank"><img
 										class="logo-informacao"
 										src="<?php bloginfo("template_url"); ?>/images/acesso-a-informacao-v2.png"></a>
 							</div>
