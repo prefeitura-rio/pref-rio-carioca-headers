@@ -1,5 +1,5 @@
 
-# Repositório de Headers – GO Rio
+# Repositório de Headers
 
 Este repositório contém os códigos dos headers utilizados nos portais:
 
