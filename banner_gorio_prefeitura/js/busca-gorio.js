@@ -1,3 +1,5 @@
+// README: https://github.com/prefeitura-rio/pref-rio-carioca-headers/new/master?filename=README.md
+
 jQuery(document).ready(function () {
   const baseUrl = 'https://prefeiturariohom.rio.gov.br'; // Store the base URL
 
