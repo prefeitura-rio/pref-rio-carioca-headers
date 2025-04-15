@@ -1,3 +1,5 @@
+// README: https://github.com/prefeitura-rio/pref-rio-carioca-headers/new/master?filename=README.md
+
 jQuery(document).ready(function () {
   // Add skeleton and error CSS styles dynamically
   $('head').append(`
@@ -66,13 +68,13 @@ jQuery(document).ready(function () {
 
       .resultadoItem {
         cursor: pointer;
-      }
+      }
     </style>
   `);
 
   // Verifica se reCAPTCHA está carregado
   if (typeof grecaptcha === 'undefined') {
-    console.warn('reCAPTCHA não carregado');
+    console.log('reCAPTCHA não carregado');
   }
 
   // Cookie functions
@@ -104,79 +106,95 @@ jQuery(document).ready(function () {
   }
 
   // Function to send metrics
-  function sendSearchMetrics(query) {
-    if (!query || query.length < 3) return;
+  async function sendSearchMetrics(query) {
+    try {
+      const sessionId = getSessionId();
+      const deviceType = getDeviceType();
 
-    grecaptcha.ready(function () {
-      grecaptcha.execute('6Le9BwgrAAAAAFsZHFHdv-JWZApR-x-9ZOVnnetv', {
-        action: 'search'
-      }).then(function (token) {
-        const metricsData = {
-          session_id: getSessionId(),
-          query: query,
-          portal_origem: "Carioca Digital",
-          tipo_dispositivo: getDeviceType(),
-          llm_reorder: false
-        };
-
-        $.ajax({
-          url: 'https://staging.busca.dados.rio/metrics/busca',
-          method: 'POST',
-          contentType: 'application/json',
-          data: JSON.stringify(metricsData),
-          headers: {
-            'X-Recaptcha-Token': token
-          },
-          success: function () {
-            console.log('Metrics sent successfully');
-          },
-          error: function (error) {
-            console.error('Error sending metrics:', error);
-          }
+      // Get reCAPTCHA token
+      const token = await new Promise((resolve) => {
+        grecaptcha.ready(() => {
+          grecaptcha.execute('6Le9BwgrAAAAAFsZHFHdv-JWZApR-x-9ZOVnnetv', { action: 'metrics' })
+            .then(resolve)
+            .catch(() => resolve(null));
         });
-      }).catch(function (error) {
-        console.error('reCAPTCHA error:', error);
       });
-    });
+
+      if (!token) {
+        console.log('Failed to get reCAPTCHA token');
+        return;
+      }
+      const metricsData = {
+        session_id: sessionId,
+        query: query,
+        portal_origem: "Carioca Digital",
+        tipo_dispositivo: deviceType,
+        llm_reorder: false
+      };
+
+      const response = await fetch('https://prefeiturariohom.rio.gov.br/proxy/proxy_metrics_busca.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Recaptcha-Token': token
+        },
+        body: JSON.stringify(metricsData)
+      });
+
+      if (!response.ok) {
+        console.log('Metrics submission failed', response.status);
+      }
+    } catch (error) {
+      console.log('Error sending metrics', error);
+    }
   }
 
-  function sendClickMetrics(item, position, query) {
-    grecaptcha.ready(function () {
-      grecaptcha.execute('6Le9BwgrAAAAAFsZHFHdv-JWZApR-x-9ZOVnnetv', {
-        action: 'search'
-      }).then(function (token) {
-        const metricsData = {
-          session_id: getSessionId(),
-          portal_origem: "Carioca Digital",
-          tipo_dispositivo: getDeviceType(),
-          filters: ["servicos"],
-          llm_reorder: false,
-          posicao: position,
-          objeto_clicado: item,
-          query: query
-        };
+  async function sendClickMetrics(query, position, item) {
+    try {
+      const sessionId = getSessionId();
+      const deviceType = getDeviceType();
 
-        $.ajax({
-          url: 'https://staging.busca.dados.rio/metrics/clique',
-          method: 'POST',
-          contentType: 'application/json',
-          data: JSON.stringify(metricsData),
-          headers: {
-            'X-Recaptcha-Token': token
-          },
-          success: function () {
-            console.log('Click metrics sent successfully');
-          },
-          error: function (error) {
-            console.error('Error sending click metrics:', error);
-          }
+      // Get reCAPTCHA token
+      const token = await new Promise((resolve) => {
+        grecaptcha.ready(() => {
+          grecaptcha.execute('6Le9BwgrAAAAAFsZHFHdv-JWZApR-x-9ZOVnnetv', { action: 'metrics' })
+            .then(resolve)
+            .catch(() => resolve(null));
         });
-      }).catch(function (error) {
-        console.error('reCAPTCHA error:', error);
       });
-    });
-  }
 
+      if (!token) {
+        console.log('Failed to get reCAPTCHA token');
+        return;
+      }
+
+      const metricsData = {
+        session_id: sessionId,
+        query: query,
+        portal_origem: "Carioca Digital",
+        tipo_dispositivo: deviceType,
+        filters: ["servicos"],
+        llm_reorder: false,
+        posicao: position,
+        objeto_clicado: item
+      };
+
+      const response = await fetch('https://prefeiturariohom.rio.gov.br/proxy/proxy_metrics_clique.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Recaptcha-Token': token
+        },
+        body: JSON.stringify(metricsData)
+      });
+
+      if (!response.ok) {
+        console.log('Click metrics submission failed', response.status);
+      }
+    } catch (error) {
+      console.log('Error sending click metrics', error);
+    }
+  }
   // Função debounce
   function debounce(func, delay) {
     let timeout;
@@ -226,8 +244,7 @@ jQuery(document).ready(function () {
       createSkeletons(container, 5); // Show 5 skeleton items
       jQuery(resultContainer).show();
 
-      var apiUrl = 'https://staging.busca.dados.rio/search/multi';
-      var seuToken = 'YitGrH9ETxCMWpDivMkaFcGsYephpPs2E8VaPGVq67GcuLVMCXtSjX7qWjMtYEg4';
+      var apiUrl = 'https://prefeiturariohom.rio.gov.br/proxy/proxy.php';
       var nomeColecao = 'carioca-digital,1746,pref-rio';
 
       // Obtém token reCAPTCHA antes de fazer a chamada AJAX
@@ -240,13 +257,10 @@ jQuery(document).ready(function () {
             method: 'GET',
             data: {
               q: textoParaConsultar,
-              cs: nomeColecao
+              cs: nomeColecao,
+              recaptcha_token: token
             },
             dataType: 'json',
-            headers: {
-              'Authorization': 'Bearer ' + seuToken,
-              'X-Recaptcha-Token': token
-            },
             success: function (data) {
               const resultados = data.result;
               const container = jQuery(resultContainer + " .flex-grow-1.d-flex.flex-column");
@@ -298,11 +312,12 @@ jQuery(document).ready(function () {
                       e.preventDefault(); // Prevent default behavior to allow time for metrics to send
 
                       // Send click metrics
-                      sendClickMetrics(item, index, textoParaConsultar);
+                      sendClickMetrics(textoParaConsultar, index, item);
 
                       // Redirect after a short delay to ensure metrics are sent
                       setTimeout(() => {
                         window.location.href = item.url;
+                        // window.open(searchUrl, '_blank');
                       }, 200); // Adjust the delay as needed (200ms is usually sufficient)
                     });
 
@@ -358,10 +373,9 @@ jQuery(document).ready(function () {
 
       const searchUrl = `https://staging.buscador.dados.rio/search-result?q=${encodeURIComponent(query)}`;
       window.location.href = searchUrl;
+      //window.open(searchUrl, '_blank');
     }
-  }
-
-  // Aplica debounce de 500ms à função handleSearch
+  } // Aplica debounce de 500ms à função handleSearch
   const debouncedSearch = debounce(handleSearch, 500);
 
   // Update event listeners for search input and button
