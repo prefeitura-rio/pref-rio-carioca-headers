@@ -1,4 +1,6 @@
 jQuery(document).ready(function () {
+  const baseUrl = 'https://prefeiturariohom.rio.gov.br'; // Store the base URL
+
   // Add skeleton and error CSS styles dynamically
   $('head').append(`
     <style>
@@ -243,7 +245,7 @@ jQuery(document).ready(function () {
         llm_reorder: false
       };
 
-      const response = await fetch('https://prefeiturariohom.rio.gov.br/proxy/proxy_metrics_busca.php', {
+      const response = await fetch(`${baseUrl}/proxy/proxy_metrics_busca.php`, { // Use baseUrl
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -291,7 +293,7 @@ jQuery(document).ready(function () {
         objeto_clicado: item
       };
 
-      const response = await fetch('https://prefeiturariohom.rio.gov.br/proxy/proxy_metrics_clique.php', {
+      const response = await fetch(`${baseUrl}/proxy/proxy_metrics_clique.php`, { // Use baseUrl
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -326,7 +328,7 @@ jQuery(document).ready(function () {
       createSkeletons(container, 5);
       jQuery(resultContainer).show();
 
-      var apiUrl = 'https://prefeiturariohom.rio.gov.br/proxy/proxy.php';
+      var apiUrl = `${baseUrl}/proxy/proxy.php`;
       var nomeColecao = 'carioca-digital,1746,pref-rio';
 
       // Obtém token reCAPTCHA antes de fazer a chamada AJAX

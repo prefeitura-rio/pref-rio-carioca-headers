@@ -1,6 +1,8 @@
 // README: https://github.com/prefeitura-rio/pref-rio-carioca-headers/new/master?filename=README.md
 
 jQuery(document).ready(function () {
+  const baseUrl = 'https://prefeiturariohom.rio.gov.br';
+
   // Add skeleton and error CSS styles dynamically
   $('head').append(`
     <style>
@@ -132,7 +134,9 @@ jQuery(document).ready(function () {
         llm_reorder: false
       };
 
-      const response = await fetch('https://prefeiturariohom.rio.gov.br/proxy/proxy_metrics_busca.php', {
+      const metricsBuscaUrl = `${baseUrl}/proxy/proxy_metrics_busca.php`;
+
+      const response = await fetch(metricsBuscaUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -179,7 +183,9 @@ jQuery(document).ready(function () {
         objeto_clicado: item
       };
 
-      const response = await fetch('https://prefeiturariohom.rio.gov.br/proxy/proxy_metrics_clique.php', {
+      const metricsClickUrl = `${baseUrl}/proxy/proxy_metrics_clique.php`;
+
+      const response = await fetch(metricsClickUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -244,7 +250,7 @@ jQuery(document).ready(function () {
       createSkeletons(container, 5); // Show 5 skeleton items
       jQuery(resultContainer).show();
 
-      var apiUrl = 'https://prefeiturariohom.rio.gov.br/proxy/proxy.php';
+      var apiUrl = `${baseUrl}/proxy/proxy.php`;
       var nomeColecao = 'carioca-digital,1746,pref-rio';
 
       // Obtém token reCAPTCHA antes de fazer a chamada AJAX
