@@ -10,7 +10,7 @@ Este repositório contém os códigos dos headers utilizados nos portais:
 
 O repositório está dividido em duas pastas principais:
 
-### `1-banner go rio carioca`
+### `1-banner carioca`
 
 Contém os arquivos responsáveis pelo header do site [home.carioca.rio](https://home.carioca.rio/).
 
@@ -18,7 +18,7 @@ Contém os arquivos responsáveis pelo header do site [home.carioca.rio](https:/
 
 **Solução adotada**: As requisições são redirecionadas para o proxy presente no header do Prefeitura (veja abaixo).
 
-### `2-banner go rio prefeitura`
+### `2-banner prefeitura`
 
 Contém os arquivos responsáveis pelo header do site [prefeitura.rio](https://prefeitura.rio/).
 
