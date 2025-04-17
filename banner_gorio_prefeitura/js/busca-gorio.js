@@ -1,3 +1,5 @@
+// README: https://github.com/prefeitura-rio/pref-rio-carioca-headers/new/master?filename=README.md
+
 jQuery(document).ready(function () {
   const baseUrl = 'https://prefeiturariohom.rio.gov.br'; // Store the base URL
 
@@ -293,7 +295,7 @@ jQuery(document).ready(function () {
         objeto_clicado: item
       };
 
-      const response = await fetch(`${baseUrl}/proxy/proxy_metrics_clique.php`, { // Use baseUrl
+      const response = await fetch(`${baseUrl}/proxy/proxy_metrics_clique.php`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
