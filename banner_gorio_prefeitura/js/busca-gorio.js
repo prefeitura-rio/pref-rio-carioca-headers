@@ -295,7 +295,7 @@ jQuery(document).ready(function () {
         objeto_clicado: item
       };
 
-      const response = await fetch(`${baseUrl}/proxy/proxy_metrics_clique.php`, { // Use baseUrl
+      const response = await fetch(`${baseUrl}/proxy/proxy_metrics_clique.php`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
